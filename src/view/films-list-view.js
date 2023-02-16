@@ -5,7 +5,7 @@ const createFilmListTemplate = () => `
 <div class="films-list__container"></div>
 `;
 
-export default class FilmListView {
+export default class FilmsListView {
   getTemlate() {
     return createFilmListTemplate();
   }
