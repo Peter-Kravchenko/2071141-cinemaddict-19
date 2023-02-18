@@ -1,8 +1,9 @@
 import { createElement } from '../render';
 
-
-const createFilmPopupTemplate = () => `
-<section class="film-details">
+const createFilmPopupTemplate = (film, comments) => {
+  const {filmInfo, userDetails} = film;
+  const {author, comment, date, emotin} = comments;
+  return (`<section class="film-details">
   <div class="film-details__inner">
     <div class="film-details__top-container">
       <div class="film-details__close">
@@ -12,7 +13,7 @@ const createFilmPopupTemplate = () => `
         <div class="film-details__poster">
           <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
 
-          <p class="film-details__age">18+</p>
+          <p class="film-details__age">${filmInfo.ageRating}</p>
         </div>
 
         <div class="film-details__info">
@@ -115,16 +116,22 @@ const createFilmPopupTemplate = () => `
     </div>
   </div>
 </section>
-`;
+`);
+};
 
-export default class FilmCardPopupView {
-  getTemlate() {
-    return createFilmPopupTemplate();
+export default class FilmPopupView {
+  constructor ({film, comments}) {
+    this.film = film;
+    this.comments = comments;
+  }
+
+  getTemplate() {
+    return createFilmPopupTemplate(this.film, this.comments);
   }
 
   getElement() {
     if (!this.element) {
-      this.element = createElement(this.getTemlate());
+      this.element = createElement(this.getTemplate());
     }
     return this.element;
   }

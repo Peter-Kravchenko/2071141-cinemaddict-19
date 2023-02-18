@@ -1,7 +1,7 @@
 import { createElement } from '../render';
 
 
-const createFilmListTemplate = () => `
+const createFilmListTopRatedTemplate = () => `
 <section class="films-list films-list--extra">
       <h2 class="films-list__title">Top rated</h2>
 
@@ -49,9 +49,9 @@ const createFilmListTemplate = () => `
     </section>
 `;
 
-export default class FilmsListExtraView {
+export default class FilmsListTopRatedView {
   getTemlate() {
-    return createFilmListTemplate();
+    return createFilmListTopRatedTemplate();
   }
 
   getElement() {

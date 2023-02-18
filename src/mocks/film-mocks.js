@@ -8,7 +8,7 @@ const mockFilms = [{
     title: 'A Little Pony Without The Carpet',
     alternativeTitle: 'Laziness Who Sold Themselves',
     totalRating: '5.3',
-    poster: 'images/posters/blue-blazes.jpg',
+    poster: 'images/posters/the-man-with-the-golden-arm.jpg',
     ageRating: '0',
     director: 'Tom Ford',
     writers: [
@@ -31,7 +31,7 @@ const mockFilms = [{
     watchlist: false,
     alreadyWatched: true,
     watchingDate: '2019-04-12T16:12:32.554Z',
-    favorite: false,
+    favorite: true,
   }
 },
 
@@ -77,7 +77,7 @@ const mockFilms = [{
   comments: [4],
   filmInfo: {
     title: 'A Shark Of The Darkness',
-    poster: 'images/posters/the-great-flamarion.jpg',
+    poster: 'images/posters/the-dance-of-life.jpg',
     director: 'Alejandro Gonsales Inarritu',
     writers: [
       'Robert Zemeckis',
@@ -123,7 +123,7 @@ const mockFilms = [{
   comments: [2,5],
   filmInfo: {
     title: 'A Shark On The Darkness',
-    poster: 'images/posters/the-great-flamarion.jpg',
+    poster: 'images/posters/made-for-each-other.png',
     director: 'Akira Kurosawa',
     writers: [
       'Robert Rodrigues',
@@ -238,7 +238,7 @@ const mockFilms = [{
   },
   userDetails: {
     watchlist: false,
-    favorite: false,
+    favorite: true,
     alreadyWatched: true,
     watchingDate: '2023-02-17T21:01:01.342Z',
   }
@@ -290,7 +290,7 @@ const mockFilms = [{
 ];
 
 
-const mockComments = [{
+export const mockComments = [{
   id: 0,
   author: 'First Author',
   comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.',
@@ -330,7 +330,5 @@ const mockComments = [{
   emotion: getRandomArrayElement(EMOTIONS),
 },
 ];
-
-export const getRandomComment = () => getRandomArrayElement(mockComments);
 
 export const getRandomFilm = () => getRandomArrayElement(mockFilms);
