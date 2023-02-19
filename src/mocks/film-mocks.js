@@ -111,7 +111,7 @@ const mockFilms = [{
   },
   userDetails: {
     watchlist: false,
-    favorite: false,
+    favorite: true,
     alreadyWatched: true,
     watchingDate: '2022-06-26T21:01:01.342Z',
   }

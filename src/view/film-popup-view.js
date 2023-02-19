@@ -1,85 +1,103 @@
 import { createElement } from '../render';
+import { humanizePopupReleaseDate, humanizePopupCommentDate } from '../utils/ulils';
+
+const getButtonStatus = (isActive) => (isActive ? 'film-details__control-button--active' : '');
+
+const createCommentsTemplate = (comments) => (`
+  <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
+    <ul class="film-details__comments-list">
+      ${comments.map((comment) => `<li class="film-details__comment">
+  <span class="film-details__comment-emoji">
+    <img src="./images/emoji/${comment.emotion}.png" width="55" height="55" alt="emoji-${comment.emotion}">
+  </span>
+  <div>
+    <p class="film-details__comment-text">${comment.comment}</p>
+    <p class="film-details__comment-info">
+      <span class="film-details__comment-author">${comment.author}</span>
+      <span class="film-details__comment-day">${humanizePopupCommentDate(comment.date)}</span>
+      <button class="film-details__comment-delete">Delete</button>
+    </p>
+  </div>
+</li>`)}
+</ul>
+`);
 
 const createFilmPopupTemplate = (film, comments) => {
   const {filmInfo, userDetails} = film;
-  const {author, comment, date, emotin} = comments;
+
+  const commentsTemplate = createCommentsTemplate(comments);
+
   return (`<section class="film-details">
-  <div class="film-details__inner">
+   <div class="film-details__inner">
     <div class="film-details__top-container">
       <div class="film-details__close">
-        <button class="film-details__close-btn" type="button">close</button>
-      </div>
-      <div class="film-details__info-wrap">
+      <button class="film-details__close-btn" type="button">close</button>
+    </div>
+    <div class="film-details__info-wrap">
         <div class="film-details__poster">
-          <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
-
+          <img class="film-details__poster-img" src="./${filmInfo.poster}" alt="${filmInfo.alternativeTitle}">
           <p class="film-details__age">${filmInfo.ageRating}</p>
         </div>
-
         <div class="film-details__info">
           <div class="film-details__info-head">
             <div class="film-details__title-wrap">
-              <h3 class="film-details__title">The Great Flamarion</h3>
-              <p class="film-details__title-original">Original: The Great Flamarion</p>
+              <h3 class="film-details__title">${filmInfo.title}</h3>
+              <p class="film-details__title-original">Original: ${filmInfo.alternativeTitle}</p>
             </div>
-
             <div class="film-details__rating">
-              <p class="film-details__total-rating">8.9</p>
+              <p class="film-details__total-rating">${filmInfo.totalRating}</p>
             </div>
           </div>
-
           <table class="film-details__table">
             <tbody><tr class="film-details__row">
               <td class="film-details__term">Director</td>
-              <td class="film-details__cell">Anthony Mann</td>
+              <td class="film-details__cell">${filmInfo.director}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Writers</td>
-              <td class="film-details__cell">Anne Wigton, Heinz Herald, Richard Weil</td>
+              <td class="film-details__cell">${filmInfo.writers.join(', ')}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Actors</td>
-              <td class="film-details__cell">Erich von Stroheim, Mary Beth Hughes, Dan Duryea</td>
+              <td class="film-details__cell">${filmInfo.actors.join(', ')}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">30 March 1945</td>
+              <td class="film-details__cell">${humanizePopupReleaseDate(filmInfo.release.date)}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Duration</td>
-              <td class="film-details__cell">1h 18m</td>
+              <td class="film-details__cell">${filmInfo.duration} m</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
-              <td class="film-details__cell">USA</td>
+              <td class="film-details__cell">${filmInfo.release.releaseCountry}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Genres</td>
               <td class="film-details__cell">
-                <span class="film-details__genre">Drama</span>
-                <span class="film-details__genre">Film-Noir</span>
-                <span class="film-details__genre">Mystery</span></td>
+                <span class="film-details__genre">${filmInfo.genre.join(', ')}</span>
+              </td>
             </tr>
           </tbody></table>
 
           <p class="film-details__film-description">
-            The film opens following a murder at a cabaret in Mexico City in 1936, and then presents the events leading up to it in flashback. The Great Flamarion (Erich von Stroheim) is an arrogant, friendless, and misogynous marksman who displays his trick gunshot act in the vaudeville circuit. His show features a beautiful assistant, Connie (Mary Beth Hughes) and her drunken husband Al (Dan Duryea), Flamarion's other assistant. Flamarion falls in love with Connie, the movie's femme fatale, and is soon manipulated by her into killing her no good husband during one of their acts.
+          ${filmInfo.description}
           </p>
         </div>
       </div>
 
       <section class="film-details__controls">
-        <button type="button" class="film-details__control-button film-details__control-button--active film-details__control-button--watchlist" id="watchlist" name="watchlist">Add to watchlist</button>
-        <button type="button" class="film-details__control-button film-details__control-button--watched" id="watched" name="watched">Already watched</button>
-        <button type="button" class="film-details__control-button film-details__control-button--favorite" id="favorite" name="favorite">Add to favorites</button>
+        <button type="button" class=" ${getButtonStatus(userDetails.watchlist)} film-details__control-button film-details__control-button--active film-details__control-button--watchlist" id="watchlist" name="watchlist">Add to watchlist</button>
+        <button type="button" class=" ${getButtonStatus(userDetails.alreadyWatched)} film-details__control-button film-details__control-button--watched" id="watched" name="watched">Already watched</button>
+        <button type="button" class=" ${getButtonStatus(userDetails.favorite)} film-details__control-button film-details__control-button--favorite" id="favorite" name="favorite">Add to favorites</button>
       </section>
     </div>
 
     <div class="film-details__bottom-container">
       <section class="film-details__comments-wrap">
-        <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">0</span></h3>
-
-        <ul class="film-details__comments-list"></ul>
+    
+      ${commentsTemplate}
 
         <form class="film-details__new-comment" action="" method="get">
           <div class="film-details__add-emoji-label">
