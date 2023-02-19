@@ -6,18 +6,20 @@ const createShowMoreBtnTemplate = () => `
 `;
 
 export default class ShowMoreBtnView {
-  getTemlate() {
+  #element = null;
+
+  get temlate() {
     return createShowMoreBtnTemplate();
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemlate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.temlate);
     }
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }

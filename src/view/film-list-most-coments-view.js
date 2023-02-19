@@ -50,18 +50,20 @@ const createFilmListMostCommentTemplate = () => `
 `;
 
 export default class FilmsListMostCommentView {
-  getTemlate() {
+  #element = null;
+
+  get temlate() {
     return createFilmListMostCommentTemplate();
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemlate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.temlate);
     }
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }

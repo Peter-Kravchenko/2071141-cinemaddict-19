@@ -5,19 +5,24 @@ import FilmPopupView from '../view/film-popup-view';
 
 export default class FilmPopupPresenter {
 
+  #popupContainer = null;
+  #filmsModel = null;
+  #film = null;
+  #comments = null;
+
   constructor ({popupContainer, filmsModel}){
-    this.filmContainer = popupContainer;
-    this.filmsModel = filmsModel;
+    this.#popupContainer = popupContainer;
+    this.#filmsModel = filmsModel;
   }
 
   init() {
-    this.film = getRandomArrayElement(this.filmsModel.getFilms());
-    this.comments = this.filmsModel.getComments((comment) => this.film.comments.includes(comment.id));
+    this.#film = getRandomArrayElement(this.#filmsModel.films);
+    this.#comments = this.#filmsModel.comments.filter((comment) => this.#film.comments.includes(comment.id));
   }
 
   popup() {
-    render ( new FilmPopupView({film: this.film,
-      comments: this.comments
-    }), this.filmContainer);
+    render ( new FilmPopupView({film: this.#film,
+      comments: this.#comments
+    }), this.#popupContainer);
   }
 }
