@@ -32,31 +32,7 @@ export default class ContentPresenter {
 
   init() {
     this.#films = [...this.#filmsModel.films];
-
-    render(new SortView(), this.#filmContainer);
-    render(this.#filmsBoardComponent, this.#filmContainer);
-    render(this.#filmListComponent, this.#filmsBoardComponent.element);
-    render(this.#filmListContainerComponent, this.#filmListComponent.element);
-
-
-    if (this.#films.length === 0) {
-      render(new NoFilmsView(), this.#filmContainer);
-    } else {
-
-      for (let i = 0; i < Math.min(this.#films.length, FILMS_COUNT_PER_STEP); i ++) {
-        this.#renderFilmCard(this.#films[i]);
-      }
-
-      if (this.#films.length > FILMS_COUNT_PER_STEP) {
-        this.#showMoreBtnComponent = new ShowMoreBtnView();
-        render(this.#showMoreBtnComponent, this.#filmListComponent.element);
-
-        this.#showMoreBtnComponent.element.addEventListener('click',
-          this.#showMoreBtnClickHandler);
-      }
-    }
-    render(new FilmsListTopRatedExtraView(), this.#filmsBoardComponent.element);
-    render(new FilmsListMostCommentView(), this.#filmsBoardComponent.element);
+    this.#renderFilmsBoard();
   }
 
   #showMoreBtnClickHandler = (evt) => {
@@ -83,6 +59,34 @@ export default class ContentPresenter {
     });
 
     render (filmCardComponent, this.#filmListContainerComponent.element);
+  }
+
+  #renderFilmsBoard() {
+    render(new SortView(), this.#filmContainer);
+    render(this.#filmsBoardComponent, this.#filmContainer);
+    render(this.#filmListComponent, this.#filmsBoardComponent.element);
+    render(this.#filmListContainerComponent, this.#filmListComponent.element);
+
+
+    if (this.#films.length === 0) {
+      render(new NoFilmsView(), this.#filmContainer);
+    } else {
+
+      for (let i = 0; i < Math.min(this.#films.length, FILMS_COUNT_PER_STEP); i ++) {
+        this.#renderFilmCard(this.#films[i]);
+      }
+
+      if (this.#films.length > FILMS_COUNT_PER_STEP) {
+        this.#showMoreBtnComponent = new ShowMoreBtnView();
+        render(this.#showMoreBtnComponent, this.#filmListComponent.element);
+
+        this.#showMoreBtnComponent.element.addEventListener('click',
+          this.#showMoreBtnClickHandler);
+      }
+    }
+    render(new FilmsListTopRatedExtraView(), this.#filmsBoardComponent.element);
+    render(new FilmsListMostCommentView(), this.#filmsBoardComponent.element);
+
   }
 
 }
