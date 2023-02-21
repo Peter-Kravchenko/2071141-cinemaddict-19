@@ -1,28 +1,41 @@
-import { render } from '../render';
-import { getRandomArrayElement } from '../utils/ulils';
 import FilmPopupView from '../view/film-popup-view';
 
 
 export default class FilmPopupPresenter {
 
   #popupContainer = null;
-  #filmsModel = null;
-  #film = null;
-  #comments = null;
+  #filmPopupComponent = null;
+  #closeBtn = null;
 
-  constructor ({popupContainer, filmsModel}){
+
+  constructor ({popupContainer, film, commentsByFilm}){
     this.#popupContainer = popupContainer;
-    this.#filmsModel = filmsModel;
+    this.#filmPopupComponent = new FilmPopupView({film, commentsByFilm});
+    this.#closeBtn = this.#filmPopupComponent.element.querySelector('.film-details__close-btn');
   }
 
-  init() {
-    this.#film = getRandomArrayElement(this.#filmsModel.films);
-    this.#comments = this.#filmsModel.comments.filter((comment) => this.#film.comments.includes(comment.id));
+
+  renderPopup() {
+    document.body.classList.add('hide-overflow');
+    this.#popupContainer.appendChild(this.#filmPopupComponent.element);
+    this.#popupContainer.addEventListener('keydown', this.#deletePopupKeydownHandler);
+    this.#closeBtn.addEventListener('click', this.#deletePopupClickHandler);
   }
 
-  popup() {
-    render ( new FilmPopupView({film: this.#film,
-      comments: this.#comments
-    }), this.#popupContainer);
+  deletePopup() {
+    document.body.classList.remove('hide-overflow');
+    this.#popupContainer.removeChild(this.#filmPopupComponent.element);
+    this.#popupContainer.removeEventListener('keydown', this.#deletePopupKeydownHandler);
+    this.#closeBtn.removeEventListener('click', this.#deletePopupClickHandler);
   }
+
+  #deletePopupClickHandler = () => {
+    this.deletePopup();
+  };
+
+  #deletePopupKeydownHandler = (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      this.deletePopup();
+    }
+  };
 }

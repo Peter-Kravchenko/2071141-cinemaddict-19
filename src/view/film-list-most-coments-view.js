@@ -52,13 +52,13 @@ const createFilmListMostCommentTemplate = () => `
 export default class FilmsListMostCommentView {
   #element = null;
 
-  get temlate() {
+  get template() {
     return createFilmListMostCommentTemplate();
   }
 
   get element() {
     if (!this.#element) {
-      this.#element = createElement(this.temlate);
+      this.#element = createElement(this.template);
     }
     return this.#element;
   }

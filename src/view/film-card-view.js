@@ -37,13 +37,13 @@ export default class FilmCardView {
     this.#film = film;
   }
 
-  get temlate() {
+  get template() {
     return createFilmCardTemplate(this.#film);
   }
 
   get element() {
     if (!this.#element) {
-      this.#element = createElement(this.temlate);
+      this.#element = createElement(this.template);
     }
     return this.#element;
   }
