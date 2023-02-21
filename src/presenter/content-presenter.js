@@ -6,8 +6,10 @@ import ShowMoreBtnView from '../view/show-more-btn-view';
 import FilmPopupPresenter from './film-popup-presenter';
 import FilmsListTopRatedExtraView from '../view/films-list-top-rated-view';
 import FilmsListMostCommentView from '../view/film-list-most-coments-view';
+import NoFilmsView from '../view/no-films-view';
+import SortView from '../view/sort-view';
 
-const FILMS_PER_STEP = 5;
+const FILMS_COUNT_PER_STEP = 5;
 
 export default class ContentPresenter {
   #filmContainer = null;
@@ -18,6 +20,7 @@ export default class ContentPresenter {
   #showMoreBtnComponent = null;
 
   #films = [];
+  #renderedFilmsCount = FILMS_COUNT_PER_STEP;
 
   constructor({filmContainer, filmsModel}) {
     this.#filmContainer = filmContainer;
@@ -30,25 +33,40 @@ export default class ContentPresenter {
     render(this.#filmsBoardComponent, this.#filmContainer);
     render(this.#filmListComponent, this.#filmsBoardComponent.element);
 
-    for (let i = 0; i < this.#films.length; i ++) {
-      this.#renderFilmCard(this.#films[i]);
-    }
-    //
-    if (this.#films.length > FILMS_PER_STEP) {
-      this.#showMoreBtnComponent = new ShowMoreBtnView();
-      render(this.#showMoreBtnComponent, this.#filmListComponent.element);
+    if (this.#films.length === 0) {
+      render(new NoFilmsView(), this.#filmContainer);
+    } else {
 
-      this.#showMoreBtnComponent.element.addEventListener('click',
-        this.#showMoreBtnClickHandler);
+      render(new SortView(), this.#filmContainer);
+
+      for (let i = 0; i < Math.min(this.#films.length, FILMS_COUNT_PER_STEP); i ++) {
+        this.#renderFilmCard(this.#films[i]);
+      }
+
+      if (this.#films.length > FILMS_COUNT_PER_STEP) {
+        this.#showMoreBtnComponent = new ShowMoreBtnView();
+        render(this.#showMoreBtnComponent, this.#filmListComponent.element);
+
+        this.#showMoreBtnComponent.element.addEventListener('click',
+          this.#showMoreBtnClickHandler);
+      }
     }
-    //
-    render(new FilmsListTopRatedExtraView(), this.#filmsBoardComponent.element);
-    render(new FilmsListMostCommentView(), this.#filmsBoardComponent.element);
+    //render(new FilmsListTopRatedExtraView(), this.#filmsBoardComponent.element);
+    //render(new FilmsListMostCommentView(), this.#filmsBoardComponent.element);
   }
 
   #showMoreBtnClickHandler = (evt) => {
     evt.preventDefault();
-    alert('Works!!!!!!!');
+    this.#films
+      .slice(this.#renderedFilmsCount, this.#renderedFilmsCount + FILMS_COUNT_PER_STEP)
+      .forEach((film) => this.#renderFilmCard(film));
+
+    this.#renderedFilmsCount += FILMS_COUNT_PER_STEP;
+
+    if (this.#renderedFilmsCount >= this.#films.length) {
+      this.#showMoreBtnComponent.element.remove();
+      this.#showMoreBtnComponent.removeElement();
+    }
   };
 
   #renderFilmCard(film) {
