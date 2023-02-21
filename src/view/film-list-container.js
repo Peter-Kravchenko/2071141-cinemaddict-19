@@ -1,15 +1,15 @@
 import { createElement } from '../render';
 
 
-const createFilmBoardTemplate = () => `
-<section class="films"></section>
+const createFilmListContainerTemplate = () => `
+<div class="films-list__container"></div>
 `;
 
-export default class FilmsBoardView {
+export default class FilmListContainerView {
   #element = null;
 
   get template() {
-    return createFilmBoardTemplate();
+    return createFilmListContainerTemplate();
   }
 
   get element() {

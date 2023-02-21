@@ -8,6 +8,7 @@ import FilmsListTopRatedExtraView from '../view/films-list-top-rated-view';
 import FilmsListMostCommentView from '../view/film-list-most-coments-view';
 import NoFilmsView from '../view/no-films-view';
 import SortView from '../view/sort-view';
+import FilmListContainerView from '../view/film-list-container';
 
 const FILMS_COUNT_PER_STEP = 5;
 
@@ -17,6 +18,8 @@ export default class ContentPresenter {
 
   #filmsBoardComponent = new FilmsBoardView();
   #filmListComponent = new FilmsListView();
+  #filmListContainerComponent = new FilmListContainerView();
+
   #showMoreBtnComponent = null;
 
   #films = [];
@@ -30,14 +33,15 @@ export default class ContentPresenter {
   init() {
     this.#films = [...this.#filmsModel.films];
 
+    render(new SortView(), this.#filmContainer);
     render(this.#filmsBoardComponent, this.#filmContainer);
     render(this.#filmListComponent, this.#filmsBoardComponent.element);
+    render(this.#filmListContainerComponent, this.#filmListComponent.element);
+
 
     if (this.#films.length === 0) {
       render(new NoFilmsView(), this.#filmContainer);
     } else {
-
-      render(new SortView(), this.#filmContainer);
 
       for (let i = 0; i < Math.min(this.#films.length, FILMS_COUNT_PER_STEP); i ++) {
         this.#renderFilmCard(this.#films[i]);
@@ -51,8 +55,8 @@ export default class ContentPresenter {
           this.#showMoreBtnClickHandler);
       }
     }
-    //render(new FilmsListTopRatedExtraView(), this.#filmsBoardComponent.element);
-    //render(new FilmsListMostCommentView(), this.#filmsBoardComponent.element);
+    render(new FilmsListTopRatedExtraView(), this.#filmsBoardComponent.element);
+    render(new FilmsListMostCommentView(), this.#filmsBoardComponent.element);
   }
 
   #showMoreBtnClickHandler = (evt) => {
@@ -78,7 +82,7 @@ export default class ContentPresenter {
       filmPopupPresenter.renderPopup();
     });
 
-    render (filmCardComponent, this.#filmListComponent.element);
+    render (filmCardComponent, this.#filmListContainerComponent.element);
   }
 
 }

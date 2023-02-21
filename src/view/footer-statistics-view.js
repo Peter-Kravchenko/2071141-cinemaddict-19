@@ -1,15 +1,17 @@
 import { createElement } from '../render';
 
 
-const createFilmBoardTemplate = () => `
-<section class="films"></section>
+const createFooterStatisticsTemplate = () => `
+    <section class="footer__statistics">
+    <p>130 291 movies inside</p>
+    </section>
 `;
 
-export default class FilmsBoardView {
+export default class FooterStatisticsView {
   #element = null;
 
   get template() {
-    return createFilmBoardTemplate();
+    return createFooterStatisticsTemplate();
   }
 
   get element() {
