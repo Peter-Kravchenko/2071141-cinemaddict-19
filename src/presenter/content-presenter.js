@@ -83,9 +83,9 @@ export default class ContentPresenter {
         this.#showMoreBtnComponent.element.addEventListener('click',
           this.#showMoreBtnClickHandler);
       }
+      render(new FilmsListTopRatedExtraView(), this.#filmsBoardComponent.element);
+      render(new FilmsListMostCommentView(), this.#filmsBoardComponent.element);
     }
-    render(new FilmsListTopRatedExtraView(), this.#filmsBoardComponent.element);
-    render(new FilmsListMostCommentView(), this.#filmsBoardComponent.element);
 
   }
 
