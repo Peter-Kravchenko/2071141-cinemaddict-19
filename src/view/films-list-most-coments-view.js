@@ -1,6 +1,6 @@
 import AbstractView from '../framework/view/abstract-view';
 
-const createFilmListMostCommentTemplate = () => `
+const createFilmsListMostCommentTemplate = () => `
 <section class="films-list films-list--extra">
   <h2 class="films-list__title">Most commented</h2>
   <div class="films-list__container">
@@ -48,6 +48,6 @@ const createFilmListMostCommentTemplate = () => `
 
 export default class FilmsListMostCommentView extends AbstractView {
   get template() {
-    return createFilmListMostCommentTemplate();
+    return createFilmsListMostCommentTemplate();
   }
 }
