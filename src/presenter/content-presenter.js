@@ -1,4 +1,4 @@
-import {render, replace, remove} from '../framework/render.js';
+import {render, remove} from '../framework/render.js';
 import FilmsBoardView from '../view/films-board-view';
 import FilmsListView from '../view/films-list-view';
 import FilmsListContainerView from '../view/films-list-container';
