@@ -76,7 +76,7 @@ const mockFilms = [{
   id: 2,
   comments: [4],
   filmInfo: {
-    title: 'A Shark Of The Darkness',
+    title: 'The Dance Of Life',
     poster: 'images/posters/the-dance-of-life.jpg',
     director: 'Alejandro Gonsales Inarritu',
     writers: [
@@ -106,7 +106,7 @@ const mockFilms = [{
     ],
     description: 'Oscar-winning film, true masterpiece where love and death are closer to heroes than their family, from the creators of timeless classic "Nu, Pogodi!" and "Alice in Wonderland", a film about a journey that heroes are about to make in finding themselves.',
     ageRating: '6',
-    alternativeTitle: 'A Shark In The Room',
+    alternativeTitle: 'The Dance of life',
     totalRating: '7.6',
   },
   userDetails: {
@@ -120,7 +120,7 @@ const mockFilms = [{
 
 {
   id: 3,
-  comments: [2,5],
+  comments: [2,4],
   filmInfo: {
     title: 'A Shark On The Darkness',
     poster: 'images/posters/made-for-each-other.png',

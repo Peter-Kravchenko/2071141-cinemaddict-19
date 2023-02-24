@@ -14,7 +14,7 @@ const createFilmCardTemplate = (film) => {
       <p class="film-card__info">
         <span class="film-card__year">${humanizeReleazeDate(filmInfo.release.date)}</span>
         <span class="film-card__duration">${filmInfo.duration}m</span>
-        <span class="film-card__genre">${filmInfo.genre}</span>
+        <span class="film-card__genre">${filmInfo.genre.join(', ')}</span>
       </p>
       <img src="./${filmInfo.poster}" alt="${filmInfo.alternativeTitle}" class="film-card__poster">
       <p class="film-card__description">${filmInfo.description}</p>

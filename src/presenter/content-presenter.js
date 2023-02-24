@@ -35,8 +35,7 @@ export default class ContentPresenter {
     this.#renderFilmsBoard();
   }
 
-  #showMoreBtnClickHandler = (evt) => {
-    evt.preventDefault();
+  #handleShowMoreBtnClick = () => {
     this.#films
       .slice(this.#renderedFilmsCount, this.#renderedFilmsCount + FILMS_COUNT_PER_STEP)
       .forEach((film) => this.#renderFilmCard(film));
@@ -76,10 +75,10 @@ export default class ContentPresenter {
       }
       if (this.#films.length > FILMS_COUNT_PER_STEP) {
 
-        this.#showMoreBtnComponent = new ShowMoreBtnView();
+        this.#showMoreBtnComponent = new ShowMoreBtnView({
+          onClick: this.#handleShowMoreBtnClick
+        });
         render(this.#showMoreBtnComponent, this.#filmsListComponent.element);
-        this.#showMoreBtnComponent.element.addEventListener('click',
-          this.#showMoreBtnClickHandler);
       }
 
       render(new FilmsListTopRatedExtraView(), this.#filmsBoardComponent.element);
