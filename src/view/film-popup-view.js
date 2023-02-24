@@ -23,7 +23,7 @@ const createCommentsTemplate = (comments) => (`
 `);
 
 const createFilmPopupTemplate = (film, comments) => {
-  const {filmInfo, userDetails} = film;
+  const { filmInfo, userDetails } = film;
 
   const commentsTemplate = createCommentsTemplate(comments);
 
@@ -130,14 +130,24 @@ const createFilmPopupTemplate = (film, comments) => {
 export default class FilmPopupView extends AbstractView {
   #film = null;
   #commentsByFilm = [];
+  #handleCloseBtnClick = null;
 
-  constructor ({film, commentsByFilm}) {
+  constructor({ film, commentsByFilm, onCloseBtnClick }) {
     super();
     this.#film = film;
     this.#commentsByFilm = commentsByFilm;
+    this.#handleCloseBtnClick = onCloseBtnClick;
+
+    this.element.querySelector('.film-details__close-btn')
+      .addEventListener('click', this.#closeBtnClickHandler);
   }
 
   get template() {
     return createFilmPopupTemplate(this.#film, this.#commentsByFilm);
   }
+
+  #closeBtnClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleCloseBtnClick();
+  };
 }

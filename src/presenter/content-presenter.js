@@ -50,13 +50,8 @@ export default class ContentPresenter {
 
   #renderFilmCard(film) {
     const commentsByFilm = this.#filmsModel.comments.filter((comment) => film.comments.includes(comment.id));
-    const filmCardComponent = new FilmCardView({film});
-    const filmPopupPresenter = new FilmPopupPresenter({popupContainer: document.body, film, commentsByFilm});
-
-    filmCardComponent.element.querySelector('.film-card__link').addEventListener('click', () => {
-      filmPopupPresenter.renderPopup();
-    });
-
+    const filmPopupPresenter = new FilmPopupPresenter({ popupContainer: document.body, film, commentsByFilm });
+    const filmCardComponent = new FilmCardView({ film, onFilmCardClick: () => filmPopupPresenter.renderPopup()});
     render (filmCardComponent, this.#filmsListContainerComponent.element);
   }
 

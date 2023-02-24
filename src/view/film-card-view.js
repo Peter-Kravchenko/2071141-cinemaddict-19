@@ -31,13 +31,23 @@ const createFilmCardTemplate = (film) => {
 
 export default class FilmCardView extends AbstractView {
   #film = null;
+  #handleFilmCardClick = null;
 
-  constructor({ film }) {
+  constructor({ film, onFilmCardClick }) {
     super();
     this.#film = film;
+    this.#handleFilmCardClick = onFilmCardClick;
+
+    this.element.querySelector('.film-card__link')
+      .addEventListener('click', this.#filmCardClickHandler);
   }
 
   get template() {
     return createFilmCardTemplate(this.#film);
   }
+
+  #filmCardClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFilmCardClick();
+  };
 }
