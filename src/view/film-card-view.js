@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view';
-import { humanizeReleazeDate } from '../utils/ulils';
+import { humanizeReleazeDate } from '../utils/film';
 
 const getButtonStatus = (isActive) => (isActive ? 'film-card__controls-item--active' : '');
 

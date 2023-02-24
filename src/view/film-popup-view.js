@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view';
-import { humanizePopupReleaseDate, humanizePopupCommentDate } from '../utils/ulils';
+import { humanizePopupReleaseDate, humanizePopupCommentDate } from '../utils/film';
 
 const getButtonStatus = (isActive) => (isActive ? 'film-details__control-button--active' : '');
 

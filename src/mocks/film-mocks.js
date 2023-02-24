@@ -1,5 +1,5 @@
 import { EMOTIONS } from '../const';
-import { getRandomArrayElement } from '../utils/ulils';
+import { getRandomArrayElement } from '../utils/common';
 
 const mockFilms = [{
   id: 0,

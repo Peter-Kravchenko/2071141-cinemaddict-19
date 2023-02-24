@@ -1,4 +1,4 @@
-import { render } from '../render';
+import {render, replace, remove} from '../framework/render.js';
 import FilmsBoardView from '../view/films-board-view';
 import FilmsListView from '../view/films-list-view';
 import FilmsListContainerView from '../view/films-list-container';
@@ -43,8 +43,7 @@ export default class ContentPresenter {
     this.#renderedFilmsCount += FILMS_COUNT_PER_STEP;
 
     if (this.#renderedFilmsCount >= this.#films.length) {
-      this.#showMoreBtnComponent.element.remove();
-      this.#showMoreBtnComponent.removeElement();
+      remove(this.#showMoreBtnComponent);
     }
   };
 
