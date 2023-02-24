@@ -6,3 +6,9 @@ export const Method = {
   POST: 'POST',
   DELETE: 'DELETE',
 };
+
+export const FilterType = {
+  WATCHLIST: 'watchlist',
+  HISTORY: 'history',
+  FAVORITES: 'favorites',
+};

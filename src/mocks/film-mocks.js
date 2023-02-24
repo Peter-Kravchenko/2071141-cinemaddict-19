@@ -1,11 +1,12 @@
 import { EMOTIONS } from '../const';
 import { getRandomArrayElement } from '../utils/common';
+import { filter } from '../utils/filter';
 
 const mockFilms = [{
   id: 0,
   comments: [1, 2, 3],
   filmInfo: {
-    title: 'A Little Pony Without The Carpet',
+    title: 'The Man With The Golden Arm',
     alternativeTitle: 'Laziness Who Sold Themselves',
     totalRating: '5.3',
     poster: 'images/posters/the-man-with-the-golden-arm.jpg',
@@ -39,7 +40,7 @@ const mockFilms = [{
   id: 1,
   comments: [2,3,4],
   filmInfo: {
-    title: 'A Shark Who Sold Himself',
+    title: 'The Great Flamarion',
     poster: 'images/posters/the-great-flamarion.jpg',
     director: 'Akira Kurosawa',
     writers: [
@@ -122,7 +123,7 @@ const mockFilms = [{
   id: 3,
   comments: [2,4],
   filmInfo: {
-    title: 'A Shark On The Darkness',
+    title: 'Made For Each Other',
     poster: 'images/posters/made-for-each-other.png',
     director: 'Akira Kurosawa',
     writers: [
@@ -164,8 +165,8 @@ const mockFilms = [{
   id: 4,
   comments: [1,2],
   filmInfo: {
-    title: 'A Shark In The Void',
-    poster: 'images/posters/sagebrush-trail.jpg',
+    title: 'Santa Claus Conquers The Martians',
+    poster: 'images/posters/santa-claus-conquers-the-martians.jpg',
     director: 'Quentin Tarantino',
     writers: [
       'Quentin Tarantino',
@@ -206,7 +207,7 @@ const mockFilms = [{
   id: 5,
   comments: [2,3,4,5],
   filmInfo: {
-    title: 'A Little Pony Who Sold Him',
+    title: 'Popoye Meets Sinbad',
     poster: 'images/posters/popeye-meets-sinbad.png',
     director: 'Tom Ford',
     writers: [
@@ -248,7 +249,7 @@ const mockFilms = [{
   id: 6,
   comments: [],
   filmInfo: {
-    title: 'Laziness Who Bought The Storm',
+    title: 'Sagebrush Trail',
     poster: 'images/posters/sagebrush-trail.jpg',
     director: 'James Cameron',
     writers: [
@@ -332,3 +333,10 @@ export const mockComments = [{
 ];
 
 export const getRandomFilm = () => getRandomArrayElement(mockFilms);
+
+export const generateFilter = (films) => Object.entries(filter).map(
+  ([filterName, filterFilms]) => ({
+    name: filterName,
+    count: filterFilms(films).length,
+  }),
+);
