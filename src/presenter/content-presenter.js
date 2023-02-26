@@ -3,7 +3,6 @@ import FilmsBoardView from '../view/films-board-view';
 import FilmsListView from '../view/films-list-view';
 import FilmsListContainerView from '../view/films-list-container';
 import SortView from '../view/sort-view';
-import FilmCardView from '../view/film-card-view';
 import ShowMoreBtnView from '../view/show-more-btn-view';
 import FilmsListTopRatedExtraView from '../view/films-list-top-rated-view';
 import FilmsListMostCommentView from '../view/films-list-most-coments-view';
