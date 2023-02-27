@@ -1,4 +1,5 @@
 import { render, remove } from '../framework/render.js';
+import { updateItem } from '../utils/common';
 import FilmsBoardView from '../view/films-board-view';
 import FilmsListView from '../view/films-list-view';
 import FilmsListContainerView from '../view/films-list-container';
@@ -8,7 +9,6 @@ import FilmsListTopRatedExtraView from '../view/films-list-top-rated-view';
 import FilmsListMostCommentView from '../view/films-list-most-coments-view';
 import NoFilmsView from '../view/no-films-view';
 import FilmPresenter from './film-presenter.js';
-
 
 const FILMS_COUNT_PER_STEP = 5;
 
@@ -43,6 +43,11 @@ export default class ContentPresenter {
     if (this.#renderedFilmsCount >= this.#films.length) {
       remove(this.#showMoreBtnComponent);
     }
+  };
+
+  #handleFilmChange = (updatedFilm) => {
+    this.#films = updateItem(this.#films, updatedFilm);
+    this.#filmPresentersMap.get(updatedFilm.id).init(updatedFilm);
   };
 
   #renderSort() {

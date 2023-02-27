@@ -12,7 +12,7 @@ export default class FilmPopupPresenter {
     this.#filmPopupComponent = new FilmPopupView({
       film,
       commentsByFilm,
-      onCloseBtnClick: () => this.deletePopup()
+      onCloseBtnClick: this.#deletePopupClickHandler,
     });
   }
 
@@ -32,6 +32,10 @@ export default class FilmPopupPresenter {
     this.#popupContainer.removeEventListener('keydown', this.#deletePopupKeydownHandler);
     popupIsRendered = null;
   }
+
+  #deletePopupClickHandler = () => {
+    this.deletePopup();
+  };
 
   #deletePopupKeydownHandler = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
