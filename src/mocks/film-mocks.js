@@ -1,9 +1,10 @@
+import { nanoid } from 'nanoid';
 import { EMOTIONS } from '../const';
 import { getRandomArrayElement } from '../utils/common';
 import { filter } from '../utils/filter';
 
 const mockFilms = [{
-  id: 0,
+  id: nanoid(),
   comments: [1, 2, 3],
   filmInfo: {
     title: 'The Man With The Golden Arm',
@@ -37,7 +38,7 @@ const mockFilms = [{
 },
 
 {
-  id: 1,
+  id: nanoid(),
   comments: [2,3,4],
   filmInfo: {
     title: 'The Great Flamarion',
@@ -74,7 +75,7 @@ const mockFilms = [{
   }
 },
 {
-  id: 2,
+  id: nanoid(),
   comments: [4],
   filmInfo: {
     title: 'The Dance Of Life',
@@ -120,7 +121,7 @@ const mockFilms = [{
 },
 
 {
-  id: 3,
+  id: nanoid(),
   comments: [2,4],
   filmInfo: {
     title: 'Made For Each Other',
@@ -162,7 +163,7 @@ const mockFilms = [{
 },
 
 {
-  id: 4,
+  id: nanoid(),
   comments: [1,2],
   filmInfo: {
     title: 'Santa Claus Conquers The Martians',
@@ -204,7 +205,7 @@ const mockFilms = [{
 },
 
 {
-  id: 5,
+  id: nanoid(),
   comments: [2,3,4,5],
   filmInfo: {
     title: 'Popoye Meets Sinbad',
@@ -246,7 +247,7 @@ const mockFilms = [{
 },
 
 {
-  id: 6,
+  id: nanoid(),
   comments: [],
   filmInfo: {
     title: 'Sagebrush Trail',

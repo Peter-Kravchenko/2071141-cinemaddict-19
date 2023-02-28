@@ -47,7 +47,7 @@ export default class ContentPresenter {
 
   #handleFilmChange = (updatedFilm) => {
     this.#films = updateItem(this.#films, updatedFilm);
-    this.#filmPresentersMap.get(updatedFilm.id).init(updatedFilm);
+    this.#filmPresentersMap.get(updatedFilm.id).init(updatedFilm, this.#filmsModel);
   };
 
   #renderSort() {
@@ -75,7 +75,8 @@ export default class ContentPresenter {
 
   #renderFilmCard(film) {
     const filmPresenter = new FilmPresenter({
-      filmsListContainerComponent: this.#filmsListContainerComponent.element
+      filmsListContainerComponent: this.#filmsListContainerComponent.element,
+      onDataChange: this.#handleFilmChange,
     });
     filmPresenter.init(film, this.#filmsModel);
     this.#filmPresentersMap.set(film.id, filmPresenter);

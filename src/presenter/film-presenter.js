@@ -9,25 +9,33 @@ export default class FilmPresenter {
   #commentsByFilm = null;
   #filmPopupPresenter = null;
   #filmCardComponent = null;
+  #handleDataChange = null;
 
 
-  constructor({ filmsListContainerComponent }) {
+  constructor({ filmsListContainerComponent, onDataChange }) {
     this.#filmsListContainerComponent = filmsListContainerComponent;
+    this.#handleDataChange = onDataChange;
   }
 
   init(film, filmsModel) {
     this.#film = film;
-
     this.#commentsByFilm = filmsModel.comments.filter((comment) => film.comments.includes(comment.id));
     this.#filmPopupPresenter = new FilmPopupPresenter({
       popupContainer: document.body,
-      film,
+      film: this.#film,
       commentsByFilm: this.#commentsByFilm,
+      onWatchlistClick: this.#handleWatchlistClick,
+      onAlreadyWatchedClick: this.#handleAlreadyWatchedClick,
+      onFavoriteClick: this.#handleFavoriteClick,
     });
 
     const prevFilmCardComponent = this.#filmCardComponent;
-    this.#filmCardComponent = new FilmCardView({film,
-      onFilmCardClick: this.#handleFilmCardClick
+    this.#filmCardComponent = new FilmCardView({
+      film: this.#film,
+      onFilmCardClick: this.#handleFilmCardClick,
+      onWatchlistClick: this.#handleWatchlistClick,
+      onAlreadyWatchedClick: this.#handleAlreadyWatchedClick,
+      onFavoriteClick: this.#handleFavoriteClick,
     });
 
     if (prevFilmCardComponent === null) {
@@ -39,12 +47,31 @@ export default class FilmPresenter {
       replace(this.#filmCardComponent, prevFilmCardComponent);
     }
 
+    if (this.#filmPopupPresenter !== null){
+      this.#filmPopupPresenter.renderPopup();
+    }
+
     remove(prevFilmCardComponent);
   }
 
   destroy() {
     remove(this.#filmCardComponent);
   }
+
+  #handleWatchlistClick = () => {
+    this.#film.userDetails.watchlist = !this.#film.userDetails.watchlist;
+    this.#handleDataChange(this.#film);
+  };
+
+  #handleAlreadyWatchedClick = () => {
+    this.#film.userDetails.alreadyWatched = !this.#film.userDetails.alreadyWatched;
+    this.#handleDataChange(this.#film);
+  };
+
+  #handleFavoriteClick = () => {
+    this.#film.userDetails.favorite = !this.#film.userDetails.favorite;
+    this.#handleDataChange(this.#film);
+  };
 
   #handleFilmCardClick = () => this.#filmPopupPresenter.renderPopup();
 }
