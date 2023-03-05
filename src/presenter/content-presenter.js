@@ -1,4 +1,4 @@
-import { render, remove } from '../framework/render.js';
+import { render, remove, RenderPosition } from '../framework/render.js';
 import { updateItem } from '../utils/common';
 import FilmsBoardView from '../view/films-board-view';
 import FilmsListView from '../view/films-list-view';
@@ -85,7 +85,7 @@ export default class ContentPresenter {
     this.#sortComponent = new SortView({
       onSortTypeChange: this.#handleSortTypeChange});
 
-    render(this.#sortComponent, this.#filmsContainer);
+    render(this.#sortComponent, this.#filmsContainer, RenderPosition.AFTERBEGIN);
 
   }
 
@@ -143,16 +143,15 @@ export default class ContentPresenter {
   }
 
   #renderFilmsBoard() {
-    this.#renderSort();
     render(this.#filmsBoardComponent, this.#filmsContainer);
 
     if (this.#films.length === 0) {
       this.#renderNoFilms();
       return;
     }
-
+    this.#renderSort();
     this.#renderFilmsList();
-    //this.#renderFilmsListTopRated();
-    //this.#renderFilmsListMostComment();
+    this.#renderFilmsListTopRated();
+    this.#renderFilmsListMostComment();
   }
 }
