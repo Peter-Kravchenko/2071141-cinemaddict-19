@@ -9,6 +9,8 @@ import FilmsListTopRatedExtraView from '../view/films-list-top-rated-view';
 import FilmsListMostCommentView from '../view/films-list-most-coments-view';
 import NoFilmsView from '../view/no-films-view';
 import FilmPresenter from './film-presenter.js';
+import { SortType } from '../const.js';
+import { sortByDate, sortByRating } from '../utils/film.js';
 
 const FILMS_COUNT_PER_STEP = 5;
 
@@ -26,6 +28,8 @@ export default class ContentPresenter {
   #films = [];
   #renderedFilmsCount = FILMS_COUNT_PER_STEP;
   #filmPresentersMap = new Map();
+  #currentSortType = SortType.DEFAULT;
+  #sourcedFilms = [];
 
   constructor({ filmContainer, filmsModel }) {
     this.#filmsContainer = filmContainer;
@@ -34,6 +38,7 @@ export default class ContentPresenter {
 
   init() {
     this.#films = [...this.#filmsModel.films];
+    this.#sourcedFilms = [...this.#filmsModel.films];
     this.#renderFilmsBoard();
   }
 
@@ -48,13 +53,32 @@ export default class ContentPresenter {
 
   #handleFilmChange = (updatedFilm) => {
     this.#films = updateItem(this.#films, updatedFilm);
+    this.#sourcedFilms = updateItem(this.#sourcedFilms, updatedFilm);
     this.#filmPresentersMap.get(updatedFilm.id).init(updatedFilm, this.#filmsModel);
   };
 
+  #sortFilms(sortType) {
+    switch (sortType) {
+      case SortType.DATE:
+        this.#films.sort(sortByDate);
+        break;
+      case SortType.RATING:
+        this.#films.sort(sortByRating);
+        break;
+      default:
+        this.#films = [...this.#sourcedFilms];
+    }
+    this.#currentSortType = sortType;
+  }
+
   #handleSortTypeChange = (sortType) => {
-    // - Сортируем задачи
-    // - Очищаем список
-    // - Рендерим список заново
+    if (this.#currentSortType === sortType) {
+      return;
+    }
+
+    this.#sortFilms(sortType);
+    this.#clearFilmsList();
+    this.#renderFilmsList();
   };
 
   #renderSort() {
@@ -128,7 +152,7 @@ export default class ContentPresenter {
     }
 
     this.#renderFilmsList();
-    this.#renderFilmsListTopRated();
-    this.#renderFilmsListMostComment();
+    //this.#renderFilmsListTopRated();
+    //this.#renderFilmsListMostComment();
   }
 }

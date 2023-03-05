@@ -9,9 +9,9 @@ const mockFilms = [{
   filmInfo: {
     title: 'The Man With The Golden Arm',
     alternativeTitle: 'Laziness Who Sold Themselves',
-    totalRating: '5.3',
+    totalRating: 5.3,
     poster: 'images/posters/the-man-with-the-golden-arm.jpg',
-    ageRating: '0',
+    ageRating: 0,
     director: 'Tom Ford',
     writers: [
       'Takeshi Kitano'
@@ -23,7 +23,7 @@ const mockFilms = [{
       date: '2019-05-11T00:00:00.000Z',
       releaseCountry: 'Finland'
     },
-    duration:'77',
+    duration:77,
     genre: [
       'Comedy'
     ],
@@ -57,15 +57,15 @@ const mockFilms = [{
       date: '2010-11-23T02:39:09.425Z',
       releaseCountry: 'Finland',
     },
-    duration: '131',
+    duration: 131,
     genre: [
       'Family',
       'Comedy',
     ],
     description: 'a war drama about two young people, true masterpiece where love and death are closer to heroes than their family, from the creators of timeless classic "Nu, Pogodi!" and "Alice in Wonderland", a film about a journey that heroes are about to make in finding themselves, with the best fight scenes since Bruce Lee.',
-    ageRating: '6',
+    ageRating: 6,
     alternativeTitle: 'Raiders Who Saw The Carpet',
-    totalRating: '4.5',
+    totalRating: 4.5,
   },
   userDetails: {
     watchlist: false,
@@ -98,7 +98,7 @@ const mockFilms = [{
       'date': '2004-02-04T23:27:38.070Z',
       'releaseCountry': 'Japan',
     },
-    duration: '94',
+    duration: 94,
     genre: [
       'Horror',
       'Action',
@@ -107,9 +107,9 @@ const mockFilms = [{
       'Comedy',
     ],
     description: 'Oscar-winning film, true masterpiece where love and death are closer to heroes than their family, from the creators of timeless classic "Nu, Pogodi!" and "Alice in Wonderland", a film about a journey that heroes are about to make in finding themselves.',
-    ageRating: '6',
+    ageRating: 6,
     alternativeTitle: 'The Dance of life',
-    totalRating: '7.6',
+    totalRating: 7.6,
   },
   userDetails: {
     watchlist: false,
@@ -144,15 +144,15 @@ const mockFilms = [{
       'date': '2009-02-16T07:44:22.909Z',
       'releaseCountry': 'Finland'
     },
-    duration: '195',
+    duration: 195,
     genre: [
       'Action',
       'Adventure'
     ],
     description: 'true masterpiece where love and death are closer to heroes than their family, from the creators of timeless classic "Nu, Pogodi!" and "Alice in Wonderland", a film about a journey that heroes are about to make in finding themselves.',
-    ageRating: '21',
+    ageRating: 21,
     alternativeTitle: 'Raiders Who Saw The Storm',
-    totalRating: '9.4',
+    totalRating: 9.4,
   },
   userDetails: {
     watchlist: false,
@@ -183,7 +183,7 @@ const mockFilms = [{
       'date': '2010-01-31T09:53:12.302Z',
       'releaseCountry': 'China',
     },
-    duration: '67',
+    duration: 67,
     genre: [
       'Sci-Fi',
       'Adventure',
@@ -192,9 +192,9 @@ const mockFilms = [{
       'Drama',
     ],
     description: 'true masterpiece where love and death are closer to heroes than their family, from the creators of timeless classic "Nu, Pogodi!" and "Alice in Wonderland".',
-    ageRating: '21',
+    ageRating: 21,
     alternativeTitle: 'Country Who Sold The Storm',
-    totalRating: '4.6',
+    totalRating: 4.6,
   },
   userDetails: {
     watchlist: true,
@@ -229,14 +229,14 @@ const mockFilms = [{
       'date': '1998-08-06T09:47:52.747Z',
       'releaseCountry': 'Italy',
     },
-    duration: '108',
+    duration: 108,
     genre: [
       'Action',
     ],
     description: 'Oscar-winning film, a war drama about two young people, true masterpiece where love and death are closer to heroes than their family, from the creators of timeless classic "Nu, Pogodi!" and "Alice in Wonderland", a film about a journey that heroes are about to make in finding themselves.',
-    ageRating: '21',
+    ageRating: 21,
     alternativeTitle: 'Laziness Without Himself',
-    totalRating: '6',
+    totalRating: 6,
   },
   userDetails: {
     watchlist: false,
@@ -270,7 +270,7 @@ const mockFilms = [{
       'date': '2018-12-21T16:20:57.094Z',
       'releaseCountry': 'France',
     },
-    duration: '138',
+    duration: 138,
     genre: [
       'Drama',
       'Comedy',
@@ -278,9 +278,9 @@ const mockFilms = [{
       'Family'
     ],
     description: 'Oscar-winning film, a war drama about two young people.',
-    ageRating: '0',
+    ageRating: 0,
     alternativeTitle: 'A Shark Who Sold Themselves',
-    totalRating: '9.5',
+    totalRating: 9.5,
   },
   userDetails: {
     watchlist: true,
