@@ -16,6 +16,7 @@ export default class ContentPresenter {
   #filmsContainer = null;
   #filmsModel = null;
   #showMoreBtnComponent = null;
+  #sortComponent = null;
 
   #filmsBoardComponent = new FilmsBoardView();
   #filmsListComponent = new FilmsListView();
@@ -50,8 +51,18 @@ export default class ContentPresenter {
     this.#filmPresentersMap.get(updatedFilm.id).init(updatedFilm, this.#filmsModel);
   };
 
+  #handleSortTypeChange = (sortType) => {
+    // - Сортируем задачи
+    // - Очищаем список
+    // - Рендерим список заново
+  };
+
   #renderSort() {
-    render(new SortView(), this.#filmsContainer);
+    this.#sortComponent = new SortView({
+      onSortTypeChange: this.#handleSortTypeChange});
+
+    render(this.#sortComponent, this.#filmsContainer);
+
   }
 
   #renderShowMoreBtn() {
