@@ -47,9 +47,9 @@ export default class FilmPresenter {
       replace(this.#filmCardComponent, prevFilmCardComponent);
     }
 
-    if (this.#filmPopupPresenter !== null){
-      this.#filmPopupPresenter.renderPopup();
-    }
+    // if (this.#filmPopupPresenter !== null){
+    //   this.#filmPopupPresenter.renderPopup();
+    // }
 
     remove(prevFilmCardComponent);
   }
