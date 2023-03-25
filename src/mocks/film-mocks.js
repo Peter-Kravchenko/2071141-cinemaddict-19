@@ -3,7 +3,7 @@ import { EMOTIONS } from '../const';
 import { getRandomArrayElement } from '../utils/common';
 import { filter } from '../utils/filter';
 
-const mockFilms = [{
+export const mockFilms = [{
   id: nanoid(),
   comments: [1, 2, 3],
   filmInfo: {

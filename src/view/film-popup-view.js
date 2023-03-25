@@ -1,8 +1,6 @@
 import AbstractView from '../framework/view/abstract-view';
 import { humanizePopupReleaseDate, humanizePopupCommentDate } from '../utils/film';
 
-const getButtonPopupStatus = (isActive) => (isActive ? 'film-details__control-button--active' : '');
-
 const createCommentsTemplate = (comments) => (`
   <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
     <ul class="film-details__comments-list">
@@ -87,9 +85,9 @@ const createFilmPopupTemplate = (film, comments) => {
       </div>
     </div>
     <section class="film-details__controls">
-      <button type="button" class=" ${getButtonPopupStatus(userDetails.watchlist)} film-details__control-button film-details__control-button--watchlist" id="watchlist" name="watchlist">Add to watchlist</button>
-      <button type="button" class=" ${getButtonPopupStatus(userDetails.alreadyWatched)} film-details__control-button film-details__control-button--watched" id="watched" name="watched">Already watched</button>
-      <button type="button" class=" ${getButtonPopupStatus(userDetails.favorite)} film-details__control-button film-details__control-button--favorite" id="favorite" name="favorite">Add to favorites</button>
+      <button type="button" class=" film-details__control-button ${userDetails.watchlist ? 'film-details__control-button--active' : ''} film-details__control-button--watchlist " id="watchlist" name="watchlist">Add to watchlist</button>
+      <button type="button" class=" film-details__control-button ${userDetails.alreadyWatched ? 'film-details__control-button--active' : ''} film-details__control-button--watched " id="watched" name="watched">Already watched</button>
+      <button type="button" class=" film-details__control-button ${userDetails.favorite ? 'film-details__control-button--active' : ''} film-details__control-button--favorite " id="favorite" name="favorite">Add to favorites</button>
     </section>
   </div>
   <div class="film-details__bottom-container">
