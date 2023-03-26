@@ -183,7 +183,7 @@ export default class FilmPopupView extends AbstractStatefulView {
 
   #watchlistClickHandler = (evt) => {
     evt.preventDefault();
-    this.#handleWatchlistClick(FilmPopupView.parseStateToFilm(this._state));
+    this.#handleWatchlistClick();
   };
 
   #alreadyWatchedClickHandler = (evt) => {
