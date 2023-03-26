@@ -129,7 +129,7 @@ export default class ContentPresenter {
     this.#renderedFilmsCount = FILMS_COUNT_PER_STEP;
 
     remove(this.#showMoreBtnComponent);
-  }//не правильно работает удаление
+  }
 
   #renderFilmsList() {
     render(this.#filmsListComponent, this.#filmsBoardComponent.element);
@@ -151,7 +151,5 @@ export default class ContentPresenter {
     }
     this.#renderSort();
     this.#renderFilmsList();
-    //this.#renderFilmsListTopRated();
-    //this.#renderFilmsListMostComment();
   }
 }

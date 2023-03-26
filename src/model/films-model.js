@@ -1,7 +1,3 @@
-import { getRandomFilm, mockComments, mockFilms } from '../mocks/film-mocks';
-
-const FILMS_COUNT = 22;
-
 export default class FilmsModel {
   #films = null;
   #comments = null;
