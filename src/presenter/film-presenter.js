@@ -17,13 +17,15 @@ export default class FilmPresenter {
     this.#handleDataChange = onDataChange;
   }
 
-  init(film, filmsModel) {
-    this.#film = film;
-    this.#commentsByFilm = filmsModel.comments.filter((comment) => film.comments.includes(comment.id));
+  init(filmData, filmsModel) {
+    const film = {
+      ...filmData,
+      comments: filmsModel.comments.filter((comment) => filmData.comments.includes(comment.id))
+    };
+
     this.#filmPopupPresenter = new FilmPopupPresenter({
       popupContainer: document.body,
-      film: this.#film,
-      commentsByFilm: this.#commentsByFilm,
+      film,
       onWatchlistClick: this.#handleWatchlistClick,
       onAlreadyWatchedClick: this.#handleAlreadyWatchedClick,
       onFavoriteClick: this.#handleFavoriteClick,
@@ -31,7 +33,7 @@ export default class FilmPresenter {
 
     const prevFilmCardComponent = this.#filmCardComponent;
     this.#filmCardComponent = new FilmCardView({
-      film: this.#film,
+      film,
       onFilmCardClick: this.#handleFilmCardClick,
       onWatchlistClick: this.#handleWatchlistClick,
       onAlreadyWatchedClick: this.#handleAlreadyWatchedClick,

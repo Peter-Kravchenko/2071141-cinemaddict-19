@@ -43,8 +43,8 @@ ${EMOTIONS.map((emotion) => `
 </div>
 `);
 
-const createFilmPopupTemplate = (film, comments) => {
-  const { filmInfo, userDetails, commentEmoji} = film;
+const createFilmPopupTemplate = (film) => {
+  const { filmInfo, comments, userDetails, commentEmoji} = film;
 
   const commentsTemplate = createCommentsTemplate(comments);
   const comentFormTemplate = createCommentFormTemplate(commentEmoji);
@@ -127,20 +127,18 @@ const createFilmPopupTemplate = (film, comments) => {
 };
 
 export default class FilmPopupView extends AbstractStatefulView {
-  #film = null;
-  #commentsByFilm = [];
+
   #handleCloseBtnClick = null;
   #handleWatchlistClick = null;
   #handleAlreadyWatchedClick = null;
   #handleFavoriteClick = null;
   #handleCommentDeleteClick = null;
 
-  constructor({ film, commentsByFilm, onCloseBtnClick, onWatchlistClick, onAlreadyWatchedClick, onFavoriteClick, onCommentDelete }) {
+  constructor({ film, onCloseBtnClick, onWatchlistClick, onAlreadyWatchedClick, onFavoriteClick, onCommentDelete }) {
     super();
 
     this._setState(FilmPopupView.parseFilmToState(film));
-    this.#film = film;
-    this.#commentsByFilm = commentsByFilm;
+
     this.#handleCloseBtnClick = onCloseBtnClick;
     this.#handleWatchlistClick = onWatchlistClick;
     this.#handleAlreadyWatchedClick = onAlreadyWatchedClick;
@@ -151,14 +149,14 @@ export default class FilmPopupView extends AbstractStatefulView {
     this._restoreHandlers();
   }
 
+  get template() {
+    return createFilmPopupTemplate(this._state);
+  }
+
   reset(film) {
     this.updateElement(
       FilmPopupView.parseFilmToState(film)
     );
-  }
-
-  get template() {
-    return createFilmPopupTemplate(this.#film, this.#commentsByFilm);
   }
 
   _restoreHandlers() {
@@ -185,7 +183,7 @@ export default class FilmPopupView extends AbstractStatefulView {
 
   #watchlistClickHandler = (evt) => {
     evt.preventDefault();
-    this.#handleWatchlistClick();
+    this.#handleWatchlistClick(FilmPopupView.parseStateToFilm(this._state));
   };
 
   #alreadyWatchedClickHandler = (evt) => {

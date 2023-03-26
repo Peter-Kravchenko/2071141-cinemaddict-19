@@ -6,12 +6,13 @@ let popupIsRendered = null;
 export default class FilmPopupPresenter {
   #popupContainer = null;
   #filmPopupComponent = null;
+  #film = null;
 
-  constructor ({ popupContainer, film, commentsByFilm, onWatchlistClick, onAlreadyWatchedClick, onFavoriteClick }){
+  constructor ({ popupContainer, film, onWatchlistClick, onAlreadyWatchedClick, onFavoriteClick }){
+    this.#film = film;
     this.#popupContainer = popupContainer;
     this.#filmPopupComponent = new FilmPopupView({
-      film,
-      commentsByFilm,
+      film: this.#film,
       onCloseBtnClick: this.#deletePopupClickHandler,
       onWatchlistClick,
       onAlreadyWatchedClick,
