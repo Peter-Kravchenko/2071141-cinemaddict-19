@@ -1,3 +1,4 @@
+import { UpdateType, UserAction } from '../const';
 import { render, remove, replace } from '../framework/render';
 import FilmCardView from '../view/film-card-view';
 import FilmPopupPresenter from './film-popup-presenter';
@@ -6,7 +7,6 @@ import FilmPopupPresenter from './film-popup-presenter';
 export default class FilmPresenter {
   #film = null;
   #filmsListContainerComponent = null;
-  #commentsByFilm = null;
   #filmPopupPresenter = null;
   #filmCardComponent = null;
   #handleDataChange = null;
@@ -17,10 +17,10 @@ export default class FilmPresenter {
     this.#handleDataChange = onDataChange;
   }
 
-  init(filmData, filmsModel) {
+  init(filmData, comments) {
     const film = {
       ...filmData,
-      comments: filmsModel.comments.filter((comment) => filmData.comments.includes(comment.id))
+      comments: comments.filter((comment) => filmData.comments.includes(comment.id))
     };
 
     this.#filmPopupPresenter = new FilmPopupPresenter({
@@ -63,12 +63,18 @@ export default class FilmPresenter {
 
   #handleAlreadyWatchedClick = () => {
     this.#film.userDetails.alreadyWatched = !this.#film.userDetails.alreadyWatched;
-    this.#handleDataChange(this.#film);
+    this.#handleDataChange(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
+      this.#film);
   };
 
   #handleFavoriteClick = () => {
     this.#film.userDetails.favorite = !this.#film.userDetails.favorite;
-    this.#handleDataChange(this.#film);
+    this.#handleDataChange(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
+      this.#film);
   };
 
   #handleFilmCardClick = () => this.#filmPopupPresenter.renderPopup();
