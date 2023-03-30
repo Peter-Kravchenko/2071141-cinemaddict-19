@@ -74,6 +74,7 @@ export default class ContentPresenter {
   };
 
   #handleSortTypeChange = (sortType) => {
+
     if (this.#currentSortType === sortType) {
       return;
     }
@@ -112,7 +113,7 @@ export default class ContentPresenter {
   #renderFilmCard(film) {
     const filmPresenter = new FilmPresenter({
       filmsListContainerComponent: this.#filmsListContainerComponent.element,
-      onDataChange: this.#handleFilmChange,
+      onDataChange: this.#handleViewAction,
     });
     filmPresenter.init(film, this.comments);
     this.#filmPresentersMap.set(film.id, filmPresenter);
@@ -155,18 +156,33 @@ export default class ContentPresenter {
   }
 
   #handleViewAction = (actionType, updateType, update) => {
-    console.log(actionType, updateType, update);
-    // Здесь будем вызывать обновление модели.
-    // actionType - действие пользователя, нужно чтобы понять, какой метод модели вызвать
-    // updateType - тип изменений, нужно чтобы понять, что после нужно обновить
-    // update - обновленные данные
+    switch (actionType) {
+      case UserAction.UPDATE_FILM:
+        this.#filmsModel.updateFilm(updateType, update);
+        break;
+      case UserAction.ADD_COMMENT:
+        this.#filmsModel.updateFilm(updateType, update);
+        this.#commentsModel.addComment(updateType, update);
+        break;
+      case UserAction.DELETE_COMMENT:
+        this.#commentsModel.deleteComment(updateType, update);
+        break;
+    }
   };
 
   #handleModelEvent = (updateType, data) => {
-    console.log(updateType, data);
-    // В зависимости от типа изменений решаем, что делать:
-    // - обновить часть списка (например, когда поменялось описание)
-    // - обновить список (например, когда задача ушла в архив)
-    // - обновить всю доску (например, при переключении фильтра)
+    switch (updateType) {
+      case UpdateType.PATCH:
+        this.#filmPresentersMap.get(data.id).init(data, this.comments);
+        break;
+      case UpdateType.MINOR:
+        this.clearFilmList();
+        this.renderFilms(FILMS_COUNT_PER_STEP);
+        break;
+      case UpdateType.MAJOR:
+        this.clearFilmList({resetSortType: true});
+        this.renderFilms(FILMS_COUNT_PER_STEP);
+        break;
+    }
   };
 }

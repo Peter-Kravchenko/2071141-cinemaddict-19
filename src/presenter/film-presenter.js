@@ -29,6 +29,8 @@ export default class FilmPresenter {
       onWatchlistClick: this.#handleWatchlistClick,
       onAlreadyWatchedClick: this.#handleAlreadyWatchedClick,
       onFavoriteClick: this.#handleFavoriteClick,
+      onCommentDelete: this.#handleCommentDelete,
+      onCommentAdd: this.#handleCommentAdd,
     });
 
     const prevFilmCardComponent = this.#filmCardComponent;
@@ -37,7 +39,6 @@ export default class FilmPresenter {
       onFilmCardClick: this.#handleFilmCardClick,
       onWatchlistClick: this.#handleWatchlistClick,
       onAlreadyWatchedClick: this.#handleAlreadyWatchedClick,
-      onFavoriteClick: this.#handleFavoriteClick,
     });
 
     if (prevFilmCardComponent === null) {
@@ -58,7 +59,10 @@ export default class FilmPresenter {
 
   #handleWatchlistClick = () => {
     this.#film.userDetails.watchlist = !this.#film.userDetails.watchlist;
-    this.#handleDataChange(this.#film);
+    this.#handleDataChange(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
+      this.#film);
   };
 
   #handleAlreadyWatchedClick = () => {
@@ -78,4 +82,21 @@ export default class FilmPresenter {
   };
 
   #handleFilmCardClick = () => this.#filmPopupPresenter.renderPopup();
+
+
+  #handleCommentAdd = (updatedFilm) => {
+    this.#handleDataChange(
+      UserAction.ADD_COMMENT,
+      UpdateType.PATCH,
+      updatedFilm
+    );
+  };
+
+  #handleCommentDelete = (updatedFilm) => {
+    this.#handleDataChange(
+      UserAction.DELETE_COMMENT,
+      UpdateType.PATCH,
+      updatedFilm
+    );
+  };
 }

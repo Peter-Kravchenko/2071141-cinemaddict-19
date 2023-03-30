@@ -133,8 +133,9 @@ export default class FilmPopupView extends AbstractStatefulView {
   #handleAlreadyWatchedClick = null;
   #handleFavoriteClick = null;
   #handleCommentDeleteClick = null;
+  #handleAddCommentClick = null;
 
-  constructor({ film, onCloseBtnClick, onWatchlistClick, onAlreadyWatchedClick, onFavoriteClick, onCommentDelete }) {
+  constructor({ film, onCloseBtnClick, onWatchlistClick, onAlreadyWatchedClick, onFavoriteClick, onCommentDelete, onCommentAdd }) {
     super();
 
     this._setState(FilmPopupView.parseFilmToState(film));
@@ -144,6 +145,7 @@ export default class FilmPopupView extends AbstractStatefulView {
     this.#handleAlreadyWatchedClick = onAlreadyWatchedClick;
     this.#handleFavoriteClick = onFavoriteClick;
     this.#handleCommentDeleteClick = onCommentDelete;
+    this.#handleAddCommentClick = onCommentAdd;
     this.defaultEmoji = DEFAULT_EMOJI;
 
     this._restoreHandlers();
@@ -170,10 +172,10 @@ export default class FilmPopupView extends AbstractStatefulView {
       .addEventListener('click', this.#favoriteClickHandler);
     this.element.querySelector('.film-details__emoji-list')
       .addEventListener('change', this.#emojiChangeHandler);
-    // this.element.querySelector('.film-details__comment-input')
-    //   .addEventListener('click', this.#commentSubmitClickHandler);
-    // this.element.querySelector('.film-details__comments-list')
-    //   .addEventListener('click', this.#commentDeleteClickHandler);
+    this.element.querySelector('.film-details__comment-input')
+      .addEventListener('click', this.#commentSubmitClickHandler);
+    this.element.querySelector('.film-details__comments-list')
+      .addEventListener('click', this.#commentDeleteClickHandler);
   }
 
   #closeBtnClickHandler = (evt) => {
