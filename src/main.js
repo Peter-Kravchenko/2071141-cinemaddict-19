@@ -7,6 +7,9 @@ import FooterStatisticsView from './view/footer-statistics-view';
 import { generateFilter, mockComments, mockFilms } from './mocks/film-mocks.js';
 import CommentsModel from './model/comments-model.js';
 
+const AUTHORIZATION = 'Basic whatislove';
+const END_POINT = 'https://19.ecmascript.pages.academy/task-manager';
+
 const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
 const siteFooterElement = document.querySelector('.footer');
