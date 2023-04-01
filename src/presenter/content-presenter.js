@@ -4,8 +4,6 @@ import FilmsListView from '../view/films-list-view';
 import FilmsListContainerView from '../view/films-list-container';
 import SortView from '../view/sort-view';
 import ShowMoreBtnView from '../view/show-more-btn-view';
-import FilmsListTopRatedExtraView from '../view/films-list-top-rated-view';
-import FilmsListMostCommentView from '../view/films-list-most-coments-view';
 import NoFilmsView from '../view/no-films-view';
 import FilmPresenter from './film-presenter.js';
 import { SortType, UpdateType, UserAction } from '../const.js';
@@ -40,13 +38,6 @@ export default class ContentPresenter {
   }
 
   get films() {
-
-    switch (this.#currentSortType) {
-      case SortType.DATE:
-        return [...this.#filmsModel.film].sort(sortByDate);
-      case SortType.RATING:
-        return [...this.#filmsModel.film].sort(sortByRating);
-    }
     return this.#filmsModel.films;
   }
 
@@ -98,14 +89,6 @@ export default class ContentPresenter {
     render(this.#showMoreBtnComponent, this.#filmsListComponent.element);
   }
 
-  #renderFilmsListTopRated() {
-    render(new FilmsListTopRatedExtraView(), this.#filmsBoardComponent.element);
-  }
-
-  #renderFilmsListMostComment() {
-    render(new FilmsListMostCommentView(), this.#filmsBoardComponent.element);
-  }
-
   #renderNoFilms() {
     render(this.#noFilmsComponent, this.#filmsContainer);
   }
@@ -155,6 +138,10 @@ export default class ContentPresenter {
     this.#renderFilmsList();
   }
 
+  // #renderLoading() {
+  //   render(this.#loadingComponent, this.#boardComponent.element, RenderPosition.AFTERBEGIN);
+  // }
+
   #handleViewAction = (actionType, updateType, update) => {
     switch (actionType) {
       case UserAction.UPDATE_FILM:
@@ -182,6 +169,9 @@ export default class ContentPresenter {
       case UpdateType.MAJOR:
         this.clearFilmList({resetSortType: true});
         this.renderFilms(FILMS_COUNT_PER_STEP);
+        break;
+      case UpdateType.INIT:
+        this.#renderFilmsBoard();
         break;
     }
   };

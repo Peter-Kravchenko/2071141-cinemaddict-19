@@ -17,12 +17,12 @@ export default class FilmPresenter {
     this.#handleDataChange = onDataChange;
   }
 
-  init(filmData, comments) {
-    const film = {
-      ...filmData,
-      comments: comments.filter((comment) => filmData.comments.includes(comment.id))
-    };
+  get popupPresenter() {
+    return this.#filmPopupPresenter;
+  }
 
+  init(film) {
+    this.#film = film;
     this.#filmPopupPresenter = new FilmPopupPresenter({
       popupContainer: document.body,
       film,

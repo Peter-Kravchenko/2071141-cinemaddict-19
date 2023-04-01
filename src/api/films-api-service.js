@@ -4,7 +4,8 @@ import {Method} from '../const.js';
 export default class FilmsApiService extends ApiService {
 
   get films() {
-    return this._load({url: 'movies'}).then(ApiService.parseResponse);
+    return this._load({url: 'movies'})
+      .then(ApiService.parseResponse);
   }
 
   async updateFilm(film) {
@@ -15,10 +16,9 @@ export default class FilmsApiService extends ApiService {
       headers: new Headers({'Content-Type': 'application/json'}),
     });
 
-    const parseResponse = await
-    ApiService.parseResponse(response);
+    const parsedResponse = await ApiService.parseResponse(response);
 
-    return parseResponse;
+    return parsedResponse;
   }
 
   #adaptToServer(film) {

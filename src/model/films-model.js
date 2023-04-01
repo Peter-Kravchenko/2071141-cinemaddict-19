@@ -1,11 +1,15 @@
+import { UpdateType } from '../const';
 import Observable from '../framework/observable';
+import { adaptFilmsToClient } from '../utils/common';
+
 
 export default class FilmsModel extends Observable {
-  #films = null;
+  #films = [];
+  #filmsApiService = null;
 
-  constructor({films}) {
+  constructor({filmsApiService}) {
     super();
-    this.#films = films;
+    this.#filmsApiService = filmsApiService;
 
   }
 
@@ -13,12 +17,30 @@ export default class FilmsModel extends Observable {
     return this.#films;
   }
 
-  set films(films) {
-    this.#films = films;
+  async init() {
+    try {
+      const films = await this.#filmsApiService.films;
+      this.#films = films.map(adaptFilmsToClient);
+      console.log(this.#films);
+    } catch(err) {
+      this.#films = [];
+    }
+
+    this._notify(UpdateType.INIT);
   }
 
-  updateFilm(updateType, update) {
-    const index = this.#films.findIndex((film) => film.id === update.id);
+  async updateFilm(updateType, update) {
+    try {
+      const response = await this.#filmsApiService.updateFilm(update);
+      const updatedFilm = adaptFilmsToClient(response);
+      this.updateFilmOnClient(updateType, updatedFilm);
+    } catch(err) {
+      throw new Error('Can\'t update film');
+    }
+  }
+
+  updateFilmOnClient(updateType, updatedFilm) {
+    const index = this.#films.findIndex((film) => film.id === updatedFilm.id);
 
     if (index === -1) {
       throw new Error('Can\'t update unexisting film');
@@ -26,61 +48,11 @@ export default class FilmsModel extends Observable {
 
     this.#films = [
       ...this.#films.slice(0, index),
-      update,
-      ...this.#films.slice(index + 1)
+      updatedFilm,
+      ...this.#films.slice(index + 1),
     ];
 
-    this._notify(updateType, update);
+    this._notify(updateType, updatedFilm);
   }
 
-  #adaptFilmsToClient(film) {
-
-    const release = {
-      ...film.film_info.release,
-      date: film.film_info.release.date !== null ? new Date(film.film_info.release.date) : film.film_info.release.date,
-      releaseCountry: film.film_info.release.release_country
-    };
-    delete release.release_country;
-
-    const filmInfo = {
-      ...film.film_info,
-      ageRating: film.film_info.age_rating,
-      alternativeTitle: film.film_info.alternative_title,
-      release,
-      totalRating: film.film_info.total_rating,
-    };
-    delete filmInfo.age_rating;
-    delete filmInfo.alternative_title;
-    delete filmInfo.total_rating;
-
-    const userDetails = {
-      ...film.user_details,
-      alreadyWatched: film.user_details.already_watched,
-      watchingDate: film.user_details.watching_date !== null ? new Date(film.user_details.watching_date) : film.user_details.watching_date
-    };
-
-    delete userDetails.already_watched;
-    delete userDetails.watching_date;
-
-    const adaptedMovie = {...film,
-      filmInfo,
-      userDetails,
-    };
-
-    delete adaptedMovie.user_details;
-    delete adaptedMovie.film_info;
-
-    return adaptedMovie;
-  }
-
-  #adaptCommentsToClient(comment) {
-    const adaptedComment = {
-      ...comment,
-      commentDate: comment.date !== null ? new Date(comment.date) : comment.date,
-    };
-
-    delete comment.date;
-
-    return adaptedComment;
-  }
 }
