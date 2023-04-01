@@ -7,27 +7,39 @@ export default class FilmPopupPresenter {
   #popupContainer = null;
   #filmPopupComponent = null;
   #film = null;
+  #commentsModel = null;
+  #onWatchlistClick = null;
+  #onAlreadyWatchedClick = null;
+  #onFavoriteClick = null;
 
-  constructor ({ popupContainer, film, onWatchlistClick, onAlreadyWatchedClick, onFavoriteClick }){
+
+  constructor ({ popupContainer, film, commentsModel, onWatchlistClick, onAlreadyWatchedClick, onFavoriteClick }){
     this.#film = film;
+    this.#commentsModel = commentsModel;
     this.#popupContainer = popupContainer;
-    this.#filmPopupComponent = new FilmPopupView({
-      film: this.#film,
-      onCloseBtnClick: this.#deletePopupClickHandler,
-      onWatchlistClick,
-      onAlreadyWatchedClick,
-      onFavoriteClick,
-    });
+    this.#onWatchlistClick = onWatchlistClick;
+    this.#onAlreadyWatchedClick = onAlreadyWatchedClick;
+    this.#onFavoriteClick = onFavoriteClick;
+
   }
 
   renderPopup() {
-    if (popupIsRendered) {
-      popupIsRendered.deletePopup();
-    }
-    document.body.classList.add('hide-overflow');
-    this.#popupContainer.appendChild(this.#filmPopupComponent.element);
-    this.#popupContainer.addEventListener('keydown', this.#deletePopupKeydownHandler);
-    popupIsRendered = this;
+    this.#commentsModel.getFilmComments(this.#film.id).then((comments) => {
+      if (popupIsRendered) {
+        popupIsRendered.deletePopup();
+      }
+      this.#filmPopupComponent = new FilmPopupView({
+        film: {...this.#film, comments},
+        onCloseBtnClick: this.#deletePopupClickHandler,
+        onWatchlistClick: this.#onWatchlistClick,
+        onAlreadyWatchedClick: this.#onAlreadyWatchedClick,
+        onFavoriteClick: this.#onFavoriteClick,
+      });
+      document.body.classList.add('hide-overflow');
+      this.#popupContainer.appendChild(this.#filmPopupComponent.element);
+      this.#popupContainer.addEventListener('keydown', this.#deletePopupKeydownHandler);
+      popupIsRendered = this;
+    });
   }
 
   deletePopup() {

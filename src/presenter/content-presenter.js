@@ -96,6 +96,7 @@ export default class ContentPresenter {
   #renderFilmCard(film) {
     const filmPresenter = new FilmPresenter({
       filmsListContainerComponent: this.#filmsListContainerComponent.element,
+      commentsModel: this.#commentsModel,
       onDataChange: this.#handleViewAction,
     });
     filmPresenter.init(film, this.comments);

@@ -9,11 +9,13 @@ export default class FilmPresenter {
   #filmsListContainerComponent = null;
   #filmPopupPresenter = null;
   #filmCardComponent = null;
+  #commentsModel = null;
   #handleDataChange = null;
 
 
-  constructor({ filmsListContainerComponent, onDataChange }) {
+  constructor({ filmsListContainerComponent, commentsModel, onDataChange }) {
     this.#filmsListContainerComponent = filmsListContainerComponent;
+    this.#commentsModel = commentsModel;
     this.#handleDataChange = onDataChange;
   }
 
@@ -26,6 +28,7 @@ export default class FilmPresenter {
     this.#filmPopupPresenter = new FilmPopupPresenter({
       popupContainer: document.body,
       film,
+      commentsModel: this.#commentsModel,
       onWatchlistClick: this.#handleWatchlistClick,
       onAlreadyWatchedClick: this.#handleAlreadyWatchedClick,
       onFavoriteClick: this.#handleFavoriteClick,
