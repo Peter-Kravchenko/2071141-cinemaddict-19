@@ -96,11 +96,11 @@ export default class FilmPresenter {
   #handleFilmCardClick = () => this.#filmPopupPresenter.renderPopup();
 
 
-  #handleCommentAdd = (filmId, deletedComment) => {
+  #handleCommentAdd = (filmId, addedComment) => {
     this.#handleDataChange(
       UserAction.ADD_COMMENT,
       UpdateType.PATCH,
-      {filmId, deletedComment
+      {filmId, addedComment
       }
     );
   };
