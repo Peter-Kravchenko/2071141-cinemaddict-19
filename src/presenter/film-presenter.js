@@ -29,11 +29,11 @@ export default class FilmPresenter {
       popupContainer: document.body,
       film,
       commentsModel: this.#commentsModel,
-      onWatchlistClick: this.#handleWatchlistClick,
-      onAlreadyWatchedClick: this.#handleAlreadyWatchedClick,
-      onFavoriteClick: this.#handleFavoriteClick,
-      onCommentDelete: this.#handleCommentDelete,
-      onCommentAdd: this.#handleCommentAdd,
+      handleWatchlistClick: this.#handleWatchlistClick,
+      handleAlreadyWatchedClick: this.#handleAlreadyWatchedClick,
+      handleFavoriteClick: this.#handleFavoriteClick,
+      handleCommentAdd: this.#handleCommentAdd,
+      handleCommentDelete: this.#handleCommentDelete,
     });
 
     const prevFilmCardComponent = this.#filmCardComponent;
@@ -42,6 +42,7 @@ export default class FilmPresenter {
       onFilmCardClick: this.#handleFilmCardClick,
       onWatchlistClick: this.#handleWatchlistClick,
       onAlreadyWatchedClick: this.#handleAlreadyWatchedClick,
+      onFavoriteClick: this.#handleFavoriteClick,
     });
 
     if (prevFilmCardComponent === null) {
@@ -87,11 +88,11 @@ export default class FilmPresenter {
   #handleFilmCardClick = () => this.#filmPopupPresenter.renderPopup();
 
 
-  #handleCommentAdd = (updatedFilm) => {
+  #handleCommentAdd = (filmId, onCommentAdd) => {
     this.#handleDataChange(
       UserAction.ADD_COMMENT,
       UpdateType.PATCH,
-      updatedFilm
+      {filmId, onCommentAdd}
     );
   };
 

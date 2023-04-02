@@ -156,7 +156,7 @@ export default class FilmPopupView extends AbstractStatefulView {
   }
 
   reset(film) {
-    this.updateElement(
+    this.#updateElement(
       FilmPopupView.parseFilmToState(film)
     );
   }
@@ -176,6 +176,14 @@ export default class FilmPopupView extends AbstractStatefulView {
       .addEventListener('click', this.#commentSubmitClickHandler);
     this.element.querySelector('.film-details__comments-list')
       .addEventListener('click', this.#commentDeleteClickHandler);
+  }
+
+  #updateElement(update) {
+    this.updateElement({
+      ...update,
+      scrollPosition: this.element.scrollTop
+    });
+    this.element.scrollTo(0, this._state.scrollPosition);
   }
 
   #closeBtnClickHandler = (evt) => {
@@ -199,9 +207,8 @@ export default class FilmPopupView extends AbstractStatefulView {
   };
 
   #emojiChangeHandler = (evt) => {
-    this.updateElement({
+    this.#updateElement({
       commentEmoji: evt.target.value,
-      scrollPosition: this.element.scrollTop
     });
     this.element.scrollTo(0, this._state.scrollPosition);
   };
@@ -215,7 +222,7 @@ export default class FilmPopupView extends AbstractStatefulView {
         date: Date.now(),
         emotion: this._state.commentEmoji
       };
-      this.updateElement({
+      this.#updateElement({
         comments: [...this._state.comments, addComment],
         scrollPosition: this.element.scrollTop
       });
@@ -225,16 +232,15 @@ export default class FilmPopupView extends AbstractStatefulView {
 
   #commentDeleteClickHandler = (evt) => {
     if (evt.target.classList.contains('film-details__comment-delete')) {
-      const deleteComment = this._state.comments.find((comment)=> comment.id === Number(evt.target.dataset.id));
-      this.updateElement({
-        comments: this._state.comments.filter((comment) => comment.id !== Number(evt.target.dataset.id)),
+      const deleteComment = this._state.comments.find((comment)=> comment.id === evt.target.dataset.id);
+      this.#updateElement({
+        comments: this._state.comments.filter((comment) => comment.id !== evt.target.dataset.id),
         scrollPosition: this.element.scrollTop
       });
       this.#handleCommentDeleteClick({
         ...FilmPopupView.parseStateToFilm(this._state),
         deleteComment
       });
-      this.element.scrollTo(0, this._state.scrollPosition);
     }
   };
 

@@ -8,19 +8,22 @@ export default class FilmPopupPresenter {
   #filmPopupComponent = null;
   #film = null;
   #commentsModel = null;
-  #onWatchlistClick = null;
-  #onAlreadyWatchedClick = null;
-  #onFavoriteClick = null;
+  #handleWatchlistClick = null;
+  #handleAlreadyWatchedClick = null;
+  #handleFavoriteClick = null;
+  #handleCommentDelete = null;
+  #handleCommentAdd = null;
 
 
-  constructor ({ popupContainer, film, commentsModel, onWatchlistClick, onAlreadyWatchedClick, onFavoriteClick }){
+  constructor ({ popupContainer, film, commentsModel, handleWatchlistClick, handleAlreadyWatchedClick, handleFavoriteClick, handleCommentAdd, handleCommentDelete}){
     this.#film = film;
     this.#commentsModel = commentsModel;
     this.#popupContainer = popupContainer;
-    this.#onWatchlistClick = onWatchlistClick;
-    this.#onAlreadyWatchedClick = onAlreadyWatchedClick;
-    this.#onFavoriteClick = onFavoriteClick;
-
+    this.#handleWatchlistClick = handleWatchlistClick;
+    this.#handleAlreadyWatchedClick = handleAlreadyWatchedClick;
+    this.#handleFavoriteClick = handleFavoriteClick;
+    this.#handleCommentDelete = handleCommentDelete;
+    this.#handleCommentAdd = handleCommentAdd;
   }
 
   renderPopup() {
@@ -31,9 +34,11 @@ export default class FilmPopupPresenter {
       this.#filmPopupComponent = new FilmPopupView({
         film: {...this.#film, comments},
         onCloseBtnClick: this.#deletePopupClickHandler,
-        onWatchlistClick: this.#onWatchlistClick,
-        onAlreadyWatchedClick: this.#onAlreadyWatchedClick,
-        onFavoriteClick: this.#onFavoriteClick,
+        onWatchlistClick: this.#handleWatchlistClick,
+        onAlreadyWatchedClick: this.#handleAlreadyWatchedClick,
+        onFavoriteClick: this.#handleFavoriteClick,
+        onCommentDelete: this.#handleCommentDelete,
+        onCommentAdd: this.#handleCommentAdd,
       });
       document.body.classList.add('hide-overflow');
       this.#popupContainer.appendChild(this.#filmPopupComponent.element);
