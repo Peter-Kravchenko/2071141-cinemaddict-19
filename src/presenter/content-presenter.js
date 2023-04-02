@@ -2,6 +2,7 @@ import { render, remove, RenderPosition } from '../framework/render.js';
 import FilmsBoardView from '../view/films-board-view';
 import FilmsListView from '../view/films-list-view';
 import FilmsListContainerView from '../view/films-list-container';
+import FooterStatisticsView from '../view/footer-statistics-view';
 import SortView from '../view/sort-view';
 import ShowMoreBtnView from '../view/show-more-btn-view';
 import NoFilmsView from '../view/no-films-view';
@@ -11,6 +12,13 @@ import { sortByDate, sortByRating } from '../utils/film.js';
 
 
 const FILMS_COUNT_PER_STEP = 5;
+const TimeLimit = {
+  LOWER_LIMIT: 350,
+  UPPER_LIMIT: 1000,
+};
+
+const siteFooterElement = document.querySelector('.footer');
+
 
 export default class ContentPresenter {
   #filmsContainer = null;
@@ -93,6 +101,12 @@ export default class ContentPresenter {
     render(this.#noFilmsComponent, this.#filmsContainer);
   }
 
+  #renderFooterStatistics() {
+    render(new FooterStatisticsView({
+      filmsCount: this.#filmsModel.films.length
+    }), siteFooterElement);
+  }
+
   #renderFilmCard(film) {
     const filmPresenter = new FilmPresenter({
       filmsListContainerComponent: this.#filmsListContainerComponent.element,
@@ -161,7 +175,7 @@ export default class ContentPresenter {
   #handleModelEvent = (updateType, data) => {
     switch (updateType) {
       case UpdateType.PATCH:
-        this.#filmPresentersMap.get(data.id).init(data, this.comments);
+        this.#filmPresentersMap.get(data.id).init(data);
         break;
       case UpdateType.MINOR:
         this.clearFilmList();
@@ -173,6 +187,7 @@ export default class ContentPresenter {
         break;
       case UpdateType.INIT:
         this.#renderFilmsBoard();
+        this.#renderFooterStatistics();
         break;
     }
   };
