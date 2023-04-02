@@ -8,10 +8,12 @@ export const Method = {
 };
 
 export const FilterType = {
+  ALL: 'all',
   WATCHLIST: 'watchlist',
   HISTORY: 'history',
-  FAVORITES: 'favorites',
+  FAVORITE: 'favorites',
 };
+
 
 export const SortType = {
   DEFAULT: 'default',
@@ -30,4 +32,9 @@ export const UpdateType = {
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
   INIT: 'INIT',
+};
+
+export const DateFormat = {
+  FILM_CARD: 'YYYY',
+  FILM_POPUP: 'D MMM YYYY'
 };

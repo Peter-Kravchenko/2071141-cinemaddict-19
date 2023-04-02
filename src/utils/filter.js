@@ -1,7 +1,15 @@
-import { FilterType } from '../const';
+import { remove, render, replace } from '../framework/render';
 
-export const filter = {
-  [FilterType.WATCHLIST]: (films) => films.filter((film) => film.userDetails.watchlist),
-  [FilterType.HISTORY]: (films) => films.filter((film) => film.userDetails.alreadyWatched),
-  [FilterType.FAVORITES]: (films) => films.filter((film) => film.userDetails.favorite),
+
+export const renderUpdateComponent = (container, component, prevComponent) => {
+  if (prevComponent === null) {
+    render(component, container);
+    return;
+  }
+
+  if (container.contains(prevComponent.element)) {
+    replace(component, prevComponent);
+  }
+
+  remove(prevComponent);
 };
