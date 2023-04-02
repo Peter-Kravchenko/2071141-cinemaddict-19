@@ -5,7 +5,7 @@ let popupIsRendered = null;
 
 export default class FilmPopupPresenter {
   #popupContainer = null;
-  #filmPopupComponent = null;
+  filmPopupComponent = null;
   #film = null;
   #commentsModel = null;
   #handleWatchlistClick = null;
@@ -31,7 +31,7 @@ export default class FilmPopupPresenter {
       if (popupIsRendered) {
         popupIsRendered.deletePopup();
       }
-      this.#filmPopupComponent = new FilmPopupView({
+      this.filmPopupComponent = new FilmPopupView({
         film: {...this.#film, comments},
         onCloseBtnClick: this.#deletePopupClickHandler,
         onWatchlistClick: this.#handleWatchlistClick,
@@ -41,7 +41,7 @@ export default class FilmPopupPresenter {
         onCommentAdd: this.#handleCommentAdd,
       });
       document.body.classList.add('hide-overflow');
-      this.#popupContainer.appendChild(this.#filmPopupComponent.element);
+      this.#popupContainer.appendChild(this.filmPopupComponent.element);
       this.#popupContainer.addEventListener('keydown', this.#deletePopupKeydownHandler);
       popupIsRendered = this;
     });
@@ -49,7 +49,7 @@ export default class FilmPopupPresenter {
 
   deletePopup() {
     document.body.classList.remove('hide-overflow');
-    this.#popupContainer.removeChild(this.#filmPopupComponent.element);
+    this.#popupContainer.removeChild(this.filmPopupComponent.element);
     this.#popupContainer.removeEventListener('keydown', this.#deletePopupKeydownHandler);
     popupIsRendered = null;
   }

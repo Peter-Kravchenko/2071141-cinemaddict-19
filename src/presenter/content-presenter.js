@@ -8,9 +8,8 @@ import ShowMoreBtnView from '../view/show-more-btn-view';
 import NoFilmsView from '../view/no-films-view';
 import FilmPresenter from './film-presenter.js';
 import FiltersPresenter from './filters-presenter';
-import { DateFormat, SortType, UpdateType, UserAction } from '../const.js';
+import { SortType, UpdateType, UserAction } from '../const.js';
 import { sortByDate, sortByRating } from '../utils/film.js';
-import { humanizeDate } from '../utils/common.js';
 import LoadingView from '../view/loading-view.js';
 import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 
@@ -21,7 +20,7 @@ const TimeLimit = {
   UPPER_LIMIT: 1000,
 };
 
-const userRaitingContainer = document.querySelector('.header');
+const siteHeaderContainer = document.querySelector('.header');
 const siteFooterElement = document.querySelector('.footer');
 
 
@@ -60,8 +59,8 @@ export default class ContentPresenter {
   }
 
   get films() {
-    //const filterType = this.#filterModel.filter;
-    //const filteredFilms = this.#filtersPresenter.filters[filterType].filteredFilms;
+    const filterType = this.#filterModel.filter;
+    const filteredFilms = this.#filtersPresenter.filters[filterType].filteredFilms;
 
     switch (this.#currentSortType) {
       case SortType.DATE:
@@ -69,7 +68,7 @@ export default class ContentPresenter {
       case SortType.RATING:
         return this.#filmsModel.films.sort(sortByRating);
       default:
-        return this.#filmsModel.films;
+        return filteredFilms.films;
     }
   }
 
@@ -107,7 +106,7 @@ export default class ContentPresenter {
   #renderFilters() {
     this.#filtersPresenter = new FiltersPresenter({
       filtersContainer: this.#filmsContainer,
-      userRaitingContainer,
+      siteHeaderContainer,
       filterModel: this.#filterModel,
       filmsModel: this.#filmsModel
     });

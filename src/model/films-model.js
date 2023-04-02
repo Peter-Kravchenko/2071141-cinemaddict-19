@@ -21,7 +21,6 @@ export default class FilmsModel extends Observable {
     try {
       const films = await this.#filmsApiService.films;
       this.#films = films.map(adaptFilmsToClient);
-      console.log(this.#films);
     } catch(err) {
       this.#films = [];
     }
@@ -34,7 +33,6 @@ export default class FilmsModel extends Observable {
       const response = await this.#filmsApiService.updateFilm(update);
       const updatedFilm = adaptFilmsToClient(response);
       this.updateFilmOnClient(updateType, updatedFilm);
-      console.log(this.updateFilmOnClient(updateType, updatedFilm));
     } catch(err) {
       throw new Error('Can\'t update film');
     }

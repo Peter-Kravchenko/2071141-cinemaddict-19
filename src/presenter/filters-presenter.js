@@ -14,9 +14,9 @@ export default class FiltersPresenter {
   #userProfileComponent = null;
   #filterComponent = null;
 
-  constructor({filtersContainer, userRaitingContainer, filterModel, filmsModel}) {
+  constructor({filtersContainer, siteHeaderContainer, filterModel, filmsModel}) {
     this.#filtersContainer = filtersContainer;
-    this.#userRaitingContainer = userRaitingContainer;
+    this.#userRaitingContainer = siteHeaderContainer;
     this.#filterModel = filterModel;
     this.#filmsModel = filmsModel;
 

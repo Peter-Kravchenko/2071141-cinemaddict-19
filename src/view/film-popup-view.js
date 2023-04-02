@@ -134,7 +134,7 @@ export default class FilmPopupView extends AbstractStatefulView {
   #handleAlreadyWatchedClick = null;
   #handleFavoriteClick = null;
   #handleCommentDeleteClick = null;
-  #handleAddCommentClick = null;
+  #handleAddCommentKeydown = null;
 
   constructor({ film, onCloseBtnClick, onWatchlistClick, onAlreadyWatchedClick, onFavoriteClick, onCommentDelete, onCommentAdd }) {
     super();
@@ -146,7 +146,7 @@ export default class FilmPopupView extends AbstractStatefulView {
     this.#handleAlreadyWatchedClick = onAlreadyWatchedClick;
     this.#handleFavoriteClick = onFavoriteClick;
     this.#handleCommentDeleteClick = onCommentDelete;
-    this.#handleAddCommentClick = onCommentAdd;
+    this.#handleAddCommentKeydown = onCommentAdd;
     this.defaultEmoji = DEFAULT_EMOJI;
 
     this._restoreHandlers();
@@ -218,7 +218,7 @@ export default class FilmPopupView extends AbstractStatefulView {
         comment: he.encode(evt.target.value),
         emotion: this._state.commentEmoji
       };
-      this.#handleAddCommentClick(this._state.id, addedComment);
+      this.#handleAddCommentKeydown(this._state.id, addedComment);
     }
   };
 
@@ -228,8 +228,7 @@ export default class FilmPopupView extends AbstractStatefulView {
       this._state.comments = this._state.comments.filter((comment) => comment.id !== evt.target.dataset.id);
 
       this.#handleCommentDeleteClick({
-        ...FilmPopupView.parseStateToFilm(this._state),
-        deletedComment
+        ...FilmPopupView.parseStateToFilm(this._state), deletedComment
       });
     }
   };
