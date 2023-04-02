@@ -1,6 +1,6 @@
 import { FilterType, UpdateType } from '../const.js';
 import { remove } from '../framework/render.js';
-import { renderUpdateComponent } from '../utils/filter.js';
+import { renderUpdateComponent } from '../utils/common.js';
 import FiltersView from '../view/filters-view.js';
 import UserProfileView from '../view/user-profile-view.js';
 

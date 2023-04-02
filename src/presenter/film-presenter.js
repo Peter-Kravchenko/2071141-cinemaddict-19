@@ -1,5 +1,6 @@
 import { UpdateType, UserAction } from '../const';
-import { render, remove, replace } from '../framework/render';
+import { remove } from '../framework/render';
+import { renderUpdateComponent } from '../utils/common';
 import FilmCardView from '../view/film-card-view';
 import FilmPopupPresenter from './film-popup-presenter';
 
@@ -45,20 +46,27 @@ export default class FilmPresenter {
       onFavoriteClick: this.#handleFavoriteClick,
     });
 
-    if (prevFilmCardComponent === null) {
-      render(this.#filmCardComponent, this.#filmsListContainerComponent);
-      return;
-    }
+    renderUpdateComponent(this.#filmsListContainerComponent, this.#filmCardComponent, prevFilmCardComponent);
 
-    if (this.#filmsListContainerComponent.contains(prevFilmCardComponent.element)) {
-      replace(this.#filmCardComponent, prevFilmCardComponent);
-    }
+    const popupIsRendered = this.#filmPopupPresenter.getRenderedPopup();
 
+    if (popupIsRendered) {
+      this.#filmPopupPresenter.resetPopupComponent(popupIsRendered.filmPopupComponent, film);
+    }
     remove(prevFilmCardComponent);
   }
 
   destroy() {
     remove(this.#filmCardComponent);
+  }
+
+  setAborting(actionType) {
+    const openedPopup = this.#filmPopupPresenter.getOpenedPopup();
+    if (openedPopup) {
+      openedPopup.filmPopupComponent.errShake(actionType);
+      return;
+    }
+    this.#filmCardComponent.shake();
   }
 
   #handleWatchlistClick = () => {
@@ -88,11 +96,12 @@ export default class FilmPresenter {
   #handleFilmCardClick = () => this.#filmPopupPresenter.renderPopup();
 
 
-  #handleCommentAdd = (filmId, onCommentAdd) => {
+  #handleCommentAdd = (filmId, deletedComment) => {
     this.#handleDataChange(
       UserAction.ADD_COMMENT,
       UpdateType.PATCH,
-      {filmId, onCommentAdd}
+      {filmId, deletedComment
+      }
     );
   };
 

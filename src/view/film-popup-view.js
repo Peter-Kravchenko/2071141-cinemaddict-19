@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import he from 'he';
 import { EMOTIONS } from '../const';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';
@@ -17,7 +18,7 @@ const createCommentsTemplate = (comments) => (`
     <p class="film-details__comment-info">
       <span class="film-details__comment-author">${comment.author}</span>
       <span class="film-details__comment-day">${humanizePopupCommentDate(comment.date)}</span>
-      <button class="film-details__comment-delete">Delete</button>
+      <button class="film-details__comment-delete" data-id="${comment.id}">Delete</button>
     </p>
   </div>
 </li>`).join('')}
@@ -157,8 +158,7 @@ export default class FilmPopupView extends AbstractStatefulView {
 
   reset(film) {
     this.#updateElement(
-      FilmPopupView.parseFilmToState(film)
-    );
+      FilmPopupView.parseFilmToState(film));
   }
 
   _restoreHandlers() {
@@ -173,7 +173,7 @@ export default class FilmPopupView extends AbstractStatefulView {
     this.element.querySelector('.film-details__emoji-list')
       .addEventListener('change', this.#emojiChangeHandler);
     this.element.querySelector('.film-details__comment-input')
-      .addEventListener('click', this.#commentSubmitClickHandler);
+      .addEventListener('keydown', this.#commentSubmitClickHandler);
     this.element.querySelector('.film-details__comments-list')
       .addEventListener('click', this.#commentDeleteClickHandler);
   }
@@ -210,36 +210,26 @@ export default class FilmPopupView extends AbstractStatefulView {
     this.#updateElement({
       commentEmoji: evt.target.value,
     });
-    this.element.scrollTo(0, this._state.scrollPosition);
   };
 
   #commentSubmitClickHandler = (evt) => {
     if (evt.key === 'Enter' && evt.ctrlKey) {
-      const addComment = {
-        id: 0,
-        author: 'new user',
+      const addedComment = {
         comment: he.encode(evt.target.value),
-        date: Date.now(),
         emotion: this._state.commentEmoji
       };
-      this.#updateElement({
-        comments: [...this._state.comments, addComment],
-        scrollPosition: this.element.scrollTop
-      });
-      this.element.scrollTo(0, this._state.scrollPositionl);
+      this.#handleAddCommentClick(this._state.id, addedComment);
     }
   };
 
   #commentDeleteClickHandler = (evt) => {
     if (evt.target.classList.contains('film-details__comment-delete')) {
-      const deleteComment = this._state.comments.find((comment)=> comment.id === evt.target.dataset.id);
-      this.#updateElement({
-        comments: this._state.comments.filter((comment) => comment.id !== evt.target.dataset.id),
-        scrollPosition: this.element.scrollTop
-      });
+      const deletedComment = this._state.comments.find((comment)=> comment.id === evt.target.dataset.id);
+      this._state.comments = this._state.comments.filter((comment) => comment.id !== evt.target.dataset.id);
+
       this.#handleCommentDeleteClick({
         ...FilmPopupView.parseStateToFilm(this._state),
-        deleteComment
+        deletedComment
       });
     }
   };

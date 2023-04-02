@@ -34,6 +34,7 @@ export default class FilmsModel extends Observable {
       const response = await this.#filmsApiService.updateFilm(update);
       const updatedFilm = adaptFilmsToClient(response);
       this.updateFilmOnClient(updateType, updatedFilm);
+      console.log(this.updateFilmOnClient(updateType, updatedFilm));
     } catch(err) {
       throw new Error('Can\'t update film');
     }

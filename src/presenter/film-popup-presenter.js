@@ -54,6 +54,16 @@ export default class FilmPopupPresenter {
     popupIsRendered = null;
   }
 
+  getRenderedPopup() {
+    return popupIsRendered;
+  }
+
+  resetPopupComponent(popupComponent, film) {
+    this.#commentsModel.getFilmComments(this.#film.id).then((comments)=> {
+      popupComponent.reset({...film, comments});
+    });
+  }
+
   #deletePopupClickHandler = () => {
     this.deletePopup();
   };

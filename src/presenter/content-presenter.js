@@ -12,6 +12,7 @@ import { DateFormat, SortType, UpdateType, UserAction } from '../const.js';
 import { sortByDate, sortByRating } from '../utils/film.js';
 import { humanizeDate } from '../utils/common.js';
 import LoadingView from '../view/loading-view.js';
+import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 
 
 const FILMS_COUNT_PER_STEP = 5;
@@ -42,6 +43,10 @@ export default class ContentPresenter {
   #filmPresentersMap = new Map();
   #filtersPresenter = null;
   #currentSortType = SortType.DEFAULT;
+  #uiBlocker = new UiBlocker({
+    lowerLimit: TimeLimit.LOWER_LIMIT,
+    upperLimit: TimeLimit.UPPER_LIMIT
+  });
 
   constructor({ filmContainer, filmsModel, commentsModel, filterModel }) {
     this.#filmsContainer = filmContainer;
@@ -77,6 +82,18 @@ export default class ContentPresenter {
     this.#renderSort();
     this.#renderFilmsBoard();
     this.#renderLoading();
+  }
+
+  clearFilmList({resetSortType = false} = {}) {
+    this.#filmPresentersMap.forEach((presenter) => presenter.destroy());
+    this.#filmPresentersMap.clear();
+
+    remove(this.#showMoreBtnComponent);
+    this.#renderShowMoreBtn();
+
+    //if (resetSortType) {
+    //this.#currentSortType = SortType.DEFAULT;
+    //this.#setActiveSortButton(this.#sortComponent.element.querySelector('.sort__button[data-sort-type="default"]'));
   }
 
   #renderSort() {
@@ -168,19 +185,38 @@ export default class ContentPresenter {
     render(this.#loadingComponent, this.#filmsListComponent.element, RenderPosition.AFTERBEGIN);
   }
 
-  #handleViewAction = (actionType, updateType, update) => {
+  #handleViewAction = async (actionType, updateType, update) => {
+    this.#uiBlocker.block();
     switch (actionType) {
       case UserAction.UPDATE_FILM:
-        this.#filmsModel.updateFilm(updateType, update);
+        try {
+          this.#filmsModel.updateFilm(updateType, update);
+          if (this.films.length === 0) {
+            this.#renderNoFilms();
+          }
+        } catch (err) {
+          this.#filmPresentersMap.get(update.id)?.setAborting(actionType);
+        }
         break;
       case UserAction.ADD_COMMENT:
-        this.#filmsModel.updateFilm(updateType, update);
-        this.#commentsModel.addComment(updateType, update);
+        try {
+          this.#commentsModel.addComment(updateType, update);
+        } catch (err) {
+          this.#filmPresentersMap.get(update.id)?.setAborting(actionType);
+        }
         break;
       case UserAction.DELETE_COMMENT:
-        this.#commentsModel.deleteComment(updateType, update);
+        try {
+          this.#commentsModel.deleteComment(updateType, update);
+        } catch (err) {
+          this.#filmPresentersMap.get(update.id)?.setAborting(actionType);
+        }
         break;
+      default:
+        throw new Error(`Unknown action type: ${actionType}`);
     }
+
+    this.#uiBlocker.unblock();
   };
 
   #handleModelEvent = (updateType, data) => {

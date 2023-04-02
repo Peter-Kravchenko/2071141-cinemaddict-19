@@ -17,7 +17,7 @@ export default class CommentsModel extends Observable {
 
   async addComment(updateType, update) {
     try {
-      const response = await this.#commentsApiService.addComment(update.filmId, update.commentToAdd);
+      const response = await this.#commentsApiService.addComment(update.filmId, update.addedComment);
       const updatedFilm = adaptFilmsToClient(response.movie);
       this.#filmsModel.updateFilmOnClient(updateType, updatedFilm);
     } catch(err) {
@@ -27,8 +27,8 @@ export default class CommentsModel extends Observable {
 
   async deleteComment(updateType, update) {
     try {
-      await this.#commentsApiService.deleteComment(update.commentToDelete.id);
-      delete update.commentToDelete;
+      await this.#commentsApiService.deleteComment(update.deletedComment.id);
+      delete update.deletedComment;
       this.#filmsModel.updateFilmOnClient(updateType, update);
     } catch(err) {
       throw new Error('Can\'t delete comment');
