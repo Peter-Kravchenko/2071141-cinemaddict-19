@@ -8,8 +8,9 @@ import ShowMoreBtnView from '../view/show-more-btn-view';
 import NoFilmsView from '../view/no-films-view';
 import FilmPresenter from './film-presenter.js';
 import FiltersPresenter from './filters-presenter';
-import { SortType, UpdateType, UserAction } from '../const.js';
+import { SortType, UpdateType, UserAction, DateFormat } from '../const.js';
 import { sortByDate, sortByRating } from '../utils/film.js';
+import {humanizeDate } from '../utils/common';
 import LoadingView from '../view/loading-view.js';
 import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 
@@ -64,11 +65,11 @@ export default class ContentPresenter {
 
     switch (this.#currentSortType) {
       case SortType.DATE:
-        return this.#filmsModel.films.sort(sortByDate);
+        return filteredFilms.sort((a, b) => humanizeDate(b.filmInfo.release.date, DateFormat.FILM_CARD) - humanizeDate(a.filmInfo.release.date, DateFormat.FILM_CARD));
       case SortType.RATING:
-        return this.#filmsModel.films.sort(sortByRating);
+        return filteredFilms.sort((a, b) => b.filmInfo.totalRating - a.filmInfo.totalRating);
       default:
-        return filteredFilms.films;
+        return filteredFilms;
     }
   }
 
@@ -90,17 +91,25 @@ export default class ContentPresenter {
     remove(this.#showMoreBtnComponent);
     this.#renderShowMoreBtn();
 
-    //if (resetSortType) {
-    //this.#currentSortType = SortType.DEFAULT;
-    //this.#setActiveSortButton(this.#sortComponent.element.querySelector('.sort__button[data-sort-type="default"]'));
+    if (resetSortType) {
+      this.#currentSortType = SortType.DEFAULT;
+      this.#setActiveSortButton(this.#sortComponent.element.querySelector('.sort__button[data-sort-type="default"]'));
+    }
   }
 
   #renderSort() {
     this.#sortComponent = new SortView({
-      onSortTypeChange: this.#handleSortTypeChange});
+      onSortTypeChange: this.#handleSortTypeChange,
+      currentSortType: this.#currentSortType
+    });
 
-    render(this.#sortComponent, this.#filmsContainer, RenderPosition.AFTERBEGIN);
+    render(this.#sortComponent, this.#filmsContainer);
 
+  }
+
+  #setActiveSortButton(button) {
+    this.#sortComponent.element.querySelector('.sort__button--active').classList.remove('sort__button--active');
+    button.classList.add('sort__button--active');
   }
 
   #renderFilters() {
@@ -225,11 +234,11 @@ export default class ContentPresenter {
         break;
       case UpdateType.MINOR:
         this.clearFilmList();
-        this.renderFilms(FILMS_COUNT_PER_STEP);
+        this.#renderFilmsBoard();
         break;
       case UpdateType.MAJOR:
         this.clearFilmList({resetSortType: true});
-        this.renderFilms(FILMS_COUNT_PER_STEP);
+        this.#renderFilmsBoard();
         break;
       case UpdateType.INIT:
         remove(this.#loadingComponent);
@@ -248,14 +257,11 @@ export default class ContentPresenter {
     }
   };
 
-  #handleSortTypeChange = (sortType) => {
-
-    if (this.#currentSortType === sortType) {
-      return;
-    }
-
+  #handleSortTypeChange = (button, sortType) => {
     this.#clearFilmsList();
-    this.#renderFilmsList();
+    this.#currentSortType = sortType;
+    this.#setActiveSortButton(button);
+    this.#renderFilmsBoard();
   };
 
 }

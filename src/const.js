@@ -38,3 +38,7 @@ export const DateFormat = {
   FILM_CARD: 'YYYY',
   FILM_POPUP: 'D MMM YYYY'
 };
+
+export const SHAKE_CLASS_NAME = 'shake';
+
+export const SHAKE_ANIMATION_TIMEOUT = 600;

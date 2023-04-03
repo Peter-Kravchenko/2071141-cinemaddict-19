@@ -81,7 +81,7 @@ export default class FiltersPresenter {
     this.#filterComponent = new FiltersView({
       filters,
       currentFilterType: this.#filterModel.filter,
-      onFilterTypeChange: this.#handleFilterTypeChange
+      onFilterChange: this.#handleFilterChange
     });
 
     renderUpdateComponent(this.#userRaitingContainer, this.#userProfileComponent, prevUserRankComponent);
@@ -98,7 +98,7 @@ export default class FiltersPresenter {
     this.init();
   };
 
-  #handleFilterTypeChange = (filterType) => {
+  #handleFilterChange = (filterType) => {
     if (this.#filterModel.filter === filterType) {
       return;
     }
