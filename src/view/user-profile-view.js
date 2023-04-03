@@ -1,13 +1,13 @@
 import AbstractView from '../framework/view/abstract-view.js';
 
-const getUserProfile = (watchedFilmsQuantity) => {
-  if (watchedFilmsQuantity > 0 && watchedFilmsQuantity <= 10) {
+const getUserProfile = (watchedFilmsCount) => {
+  if (watchedFilmsCount > 0 && watchedFilmsCount <= 10) {
     return 'novice';
   }
-  if (watchedFilmsQuantity > 10 && watchedFilmsQuantity <= 20) {
+  if (watchedFilmsCount > 10 && watchedFilmsCount <= 20) {
     return 'fan';
   }
-  if (watchedFilmsQuantity > 20) {
+  if (watchedFilmsCount > 20) {
     return 'movie buff';
   }
 };
@@ -22,9 +22,9 @@ const createProfileTemplate = (watchedFilmsQuantity) => (
 export default class UserProfileView extends AbstractView {
   #watchedFilmsQuantity = null;
 
-  constructor({watchedFilmsQuantity}) {
+  constructor({watchedFilmsCount}) {
     super();
-    this.#watchedFilmsQuantity = watchedFilmsQuantity;
+    this.#watchedFilmsQuantity = watchedFilmsCount;
   }
 
   get template() {

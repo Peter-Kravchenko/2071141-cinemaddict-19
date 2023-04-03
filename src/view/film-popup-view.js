@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import he from 'he';
 import { EMOTIONS } from '../const';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view';

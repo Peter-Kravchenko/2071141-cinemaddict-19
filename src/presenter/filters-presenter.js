@@ -80,7 +80,7 @@ export default class FiltersPresenter {
 
     this.#filterComponent = new FiltersView({
       filters,
-      currentFilterType: this.#filterModel.filter,
+      currentFilter: this.#filterModel.filter,
       onFilterChange: this.#handleFilterChange
     });
 

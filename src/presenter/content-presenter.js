@@ -8,9 +8,8 @@ import ShowMoreBtnView from '../view/show-more-btn-view';
 import NoFilmsView from '../view/no-films-view';
 import FilmPresenter from './film-presenter.js';
 import FiltersPresenter from './filters-presenter';
-import { SortType, UpdateType, UserAction, DateFormat } from '../const.js';
+import { SortType, UpdateType, UserAction } from '../const.js';
 import { sortByDate, sortByRating } from '../utils/film.js';
-import {humanizeDate } from '../utils/common';
 import LoadingView from '../view/loading-view.js';
 import UiBlocker from '../framework/ui-blocker/ui-blocker.js';
 
@@ -65,9 +64,9 @@ export default class ContentPresenter {
 
     switch (this.#currentSortType) {
       case SortType.DATE:
-        return filteredFilms.sort((a, b) => humanizeDate(b.filmInfo.release.date, DateFormat.FILM_CARD) - humanizeDate(a.filmInfo.release.date, DateFormat.FILM_CARD));
+        return filteredFilms.sort(sortByDate);
       case SortType.RATING:
-        return filteredFilms.sort((a, b) => b.filmInfo.totalRating - a.filmInfo.totalRating);
+        return filteredFilms.sort(sortByRating);
       default:
         return filteredFilms;
     }
@@ -97,16 +96,6 @@ export default class ContentPresenter {
     }
   }
 
-  #renderSort() {
-    this.#sortComponent = new SortView({
-      onSortTypeChange: this.#handleSortTypeChange,
-      currentSortType: this.#currentSortType
-    });
-
-    render(this.#sortComponent, this.#filmsContainer);
-
-  }
-
   #setActiveSortButton(button) {
     this.#sortComponent.element.querySelector('.sort__button--active').classList.remove('sort__button--active');
     button.classList.add('sort__button--active');
@@ -119,8 +108,15 @@ export default class ContentPresenter {
       filterModel: this.#filterModel,
       filmsModel: this.#filmsModel
     });
-
     this.#filtersPresenter.init();
+  }
+
+  #renderSort() {
+    this.#sortComponent = new SortView({
+      onSortTypeChange: this.#handleSortTypeChange,
+      currentSortType: this.#currentSortType
+    });
+    render(this.#sortComponent, this.#filmsContainer);
   }
 
   #renderShowMoreBtn() {
@@ -238,6 +234,7 @@ export default class ContentPresenter {
         break;
       case UpdateType.MAJOR:
         this.clearFilmList({resetSortType: true});
+        remove(this.#showMoreBtnComponent);
         this.#renderFilmsBoard();
         break;
       case UpdateType.INIT:

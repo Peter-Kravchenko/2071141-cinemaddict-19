@@ -6,7 +6,7 @@ const createFilterItemsTemplate = (filter, currentFilter) => {
   const {type, name, filteredFilms} = filter;
   return (
     `<a href="#${type}" data-filter-type="${type}"
-    class="main-navigation__item">${type === currentFilter ? 'main-navigation__item--active' : ''}" 
+    class="main-navigation__item" ${type === currentFilter ? 'main-navigation__item--active' : ''}" >
     ${name} 
     <span class="main-navigation__item-count">${filteredFilms.length}
      </span>
